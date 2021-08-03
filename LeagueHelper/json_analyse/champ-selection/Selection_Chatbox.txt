@@ -1,0 +1,9 @@
+//https://127.0.0.1:59023/lol-chat/v1/conversations/{room code}/messages
+//https://127.0.0.1:59023/lol-chat/v1/conversations/c1~604f3df7c7ba75c8da7e22b07b00fb091571e9a2%40champ-select.pvp.net/messages
+//selection menu chatbox
+//How to ?
+//Get champ-select.pvp.net in https://127.0.0.1:59023/lol-chat/v1/conversations/
+{
+  "body": "TEXT",
+  "type": "chat"
+}

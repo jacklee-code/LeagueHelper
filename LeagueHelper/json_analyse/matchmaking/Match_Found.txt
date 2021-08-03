@@ -1,0 +1,8 @@
+{
+    "declinerIds": [],
+    "dodgeWarning": "None",
+    "playerResponse": "None",
+    "state": "InProgress",
+    "suppressUx": false,
+    "timer": 2.0
+}

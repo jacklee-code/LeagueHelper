@@ -1,0 +1,58 @@
+//chatroom + system chat message
+//https://127.0.0.1:65492/lol-chat/v1/conversations/{room_id}/messages
+//{"body" : "message"}
+[{
+    "body": "joined_room",
+    "fromId": "74fe5fea-331d-5bfd-9dda-b8990dcf9576",
+    "fromPid": "74fe5fea-331d-5bfd-9dda-b8990dcf9576@pvp.net",
+    "fromSummonerId": 524731413,
+    "id": "m_2b75c835f2d79e23",
+    "isHistorical": false,
+    "timestamp": "2021-07-31T17:04:02.272Z",
+    "type": "system"
+}, {
+    "body": "joined_room",
+    "fromId": "42c18640-0c65-5dcc-8ff3-a4bc50fed01e",
+    "fromPid": "42c18640-0c65-5dcc-8ff3-a4bc50fed01e@pvp.net",
+    "fromSummonerId": 7996391,
+    "id": "m_4001b56134774777",
+    "isHistorical": false,
+    "timestamp": "2021-07-31T17:04:07.881Z",
+    "type": "system"
+}, {
+    "body": "test",
+    "fromId": "74fe5fea-331d-5bfd-9dda-b8990dcf9576@pvp.net",
+    "fromPid": "74fe5fea-331d-5bfd-9dda-b8990dcf9576@pvp.net",
+    "fromSummonerId": 524731413,
+    "id": "1627751754936:7",
+    "isHistorical": true,
+    "timestamp": "2021-07-31T17:15:55.114Z",
+    "type": "groupchat"
+}, {
+    "body": "test",
+    "fromId": "74fe5fea-331d-5bfd-9dda-b8990dcf9576@pvp.net",
+    "fromPid": "74fe5fea-331d-5bfd-9dda-b8990dcf9576@pvp.net",
+    "fromSummonerId": 524731413,
+    "id": "1627751767790:8",
+    "isHistorical": true,
+    "timestamp": "2021-07-31T17:16:08.014Z",
+    "type": "groupchat"
+}, {
+    "body": "test",
+    "fromId": "74fe5fea-331d-5bfd-9dda-b8990dcf9576@pvp.net",
+    "fromPid": "74fe5fea-331d-5bfd-9dda-b8990dcf9576@pvp.net",
+    "fromSummonerId": 524731413,
+    "id": "1627751768416:9",
+    "isHistorical": true,
+    "timestamp": "2021-07-31T17:16:08.622Z",
+    "type": "groupchat"
+}, {
+    "body": "test",
+    "fromId": "74fe5fea-331d-5bfd-9dda-b8990dcf9576@pvp.net",
+    "fromPid": "74fe5fea-331d-5bfd-9dda-b8990dcf9576@pvp.net",
+    "fromSummonerId": 524731413,
+    "id": "1627751769041:10",
+    "isHistorical": true,
+    "timestamp": "2021-07-31T17:16:09.231Z",
+    "type": "groupchat"
+}]

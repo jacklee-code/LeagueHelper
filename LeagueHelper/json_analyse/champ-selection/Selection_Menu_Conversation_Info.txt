@@ -1,0 +1,16 @@
+//Get Conversation Data
+//https://127.0.0.1:53776/lol-chat/v1/conversations/
+[{
+    "gameName": "",
+    "gameTag": "",
+    "id": "c1~9fe34532c6334c244704a1445ea59a405abbc485@champ-select.eu1.pvp.net",
+    "inviterId": "",
+    "isMuted": false,
+    "lastMessage": null,
+    "name": "",
+    "password": "",
+    "pid": "c1~9fe34532c6334c244704a1445ea59a405abbc485@champ-select.eu1.pvp.net",
+    "targetRegion": "eu1",
+    "type": "championSelect",
+    "unreadMessageCount": 0
+}]

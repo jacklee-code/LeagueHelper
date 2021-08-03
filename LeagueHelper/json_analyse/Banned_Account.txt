@@ -1,0 +1,33 @@
+{
+    "availability": "chat",
+    "gameName": "",
+    "gameTag": "",
+    "icon": 1114,
+    "id": "0",
+    "lastSeenOnlineTimestamp": null,
+    "lol": {
+        "championId": "",
+        "companionId": "1",
+        "gameQueueType": "",
+        "gameStatus": "outOfGame",
+        "iconOverride": "",
+        "level": "190",
+        "mapId": "",
+        "masteryScore": "451",
+        "puuid": "9df8c400-9146-5cec-8770-96b5c3194857",
+        "regalia": "{\"bannerType\":2,\"crestType\":1}",
+        "skinVariant": "",
+        "skinname": ""
+    },
+    "name": "心跳文學部Monika",
+    "patchline": "",
+    "pid": "",
+    "platformId": "TW",
+    "product": "league_of_legends",
+    "productName": "",
+    "puuid": "9df8c400-9146-5cec-8770-96b5c3194857",
+    "statusMessage": "小海牛真她喵的好玩~",
+    "summary": "",
+    "summonerId": 3467422,
+    "time": 0
+}

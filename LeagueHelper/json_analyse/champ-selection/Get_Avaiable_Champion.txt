@@ -1,0 +1,534 @@
+//https://127.0.0.1:58965/lol-champions/v1/owned-champions-minimal
+[{
+    "active": true,
+    "alias": "Annie",
+    "banVoPath": "/lol-game-data/assets/v1/champion-ban-vo/1.ogg",
+    "baseLoadScreenPath": "/lol-game-data/assets/ASSETS/Characters/Annie/Skins/Base/AnnieLoadScreen.jpg",
+    "baseSplashPath": "/lol-game-data/assets/v1/champion-splashes/1/1000.jpg",
+    "botEnabled": true,
+    "chooseVoPath": "/lol-game-data/assets/v1/champion-choose-vo/1.ogg",
+    "disabledQueues": [],
+    "freeToPlay": false,
+    "id": 1,
+    "name": "安妮",
+    "ownership": {
+        "freeToPlayReward": false,
+        "owned": true,
+        "rental": {
+            "endDate": 0,
+            "purchaseDate": 1627087496000,
+            "rented": false,
+            "winCountRemaining": 0
+        }
+    },
+    "purchased": 1627087496000,
+    "rankedPlayEnabled": true,
+    "roles": ["mage"],
+    "squarePortraitPath": "/lol-game-data/assets/v1/champion-icons/1.png",
+    "stingerSfxPath": "/lol-game-data/assets/v1/champion-sfx-audios/1.ogg",
+    "title": "黑暗之女"
+}, {
+    "active": true,
+    "alias": "XinZhao",
+    "banVoPath": "/lol-game-data/assets/v1/champion-ban-vo/5.ogg",
+    "baseLoadScreenPath": "/lol-game-data/assets/ASSETS/Characters/XinZhao/Skins/Base/XinZhaoLoadScreen.jpg",
+    "baseSplashPath": "/lol-game-data/assets/v1/champion-splashes/5/5000.jpg",
+    "botEnabled": false,
+    "chooseVoPath": "/lol-game-data/assets/v1/champion-choose-vo/5.ogg",
+    "disabledQueues": [],
+    "freeToPlay": false,
+    "id": 5,
+    "name": "趙信",
+    "ownership": {
+        "freeToPlayReward": false,
+        "owned": true,
+        "rental": {
+            "endDate": 0,
+            "purchaseDate": 1627138681000,
+            "rented": false,
+            "winCountRemaining": 0
+        }
+    },
+    "purchased": 1627138681000,
+    "rankedPlayEnabled": true,
+    "roles": ["fighter", "assassin"],
+    "squarePortraitPath": "/lol-game-data/assets/v1/champion-icons/5.png",
+    "stingerSfxPath": "/lol-game-data/assets/v1/champion-sfx-audios/5.ogg",
+    "title": "蒂瑪西亞總管"
+}, {
+    "active": true,
+    "alias": "FiddleSticks",
+    "banVoPath": "/lol-game-data/assets/v1/champion-ban-vo/9.ogg",
+    "baseLoadScreenPath": "/lol-game-data/assets/ASSETS/Characters/Fiddlesticks/Skins/Base/FiddleSticksLoadscreen.FiddleSticksRework.jpg",
+    "baseSplashPath": "/lol-game-data/assets/v1/champion-splashes/9/9000.jpg",
+    "botEnabled": false,
+    "chooseVoPath": "/lol-game-data/assets/v1/champion-choose-vo/9.ogg",
+    "disabledQueues": [],
+    "freeToPlay": true,
+    "id": 9,
+    "name": "費德提克",
+    "ownership": {
+        "freeToPlayReward": false,
+        "owned": false,
+        "rental": {
+            "endDate": 0,
+            "purchaseDate": 0,
+            "rented": false,
+            "winCountRemaining": 0
+        }
+    },
+    "purchased": 0,
+    "rankedPlayEnabled": true,
+    "roles": ["mage", "support"],
+    "squarePortraitPath": "/lol-game-data/assets/v1/champion-icons/9.png",
+    "stingerSfxPath": "/lol-game-data/assets/v1/champion-sfx-audios/9.ogg",
+    "title": "亙古之懼"
+}, {
+    "active": true,
+    "alias": "Kayle",
+    "banVoPath": "/lol-game-data/assets/v1/champion-ban-vo/10.ogg",
+    "baseLoadScreenPath": "/lol-game-data/assets/ASSETS/Characters/Kayle/Skins/Base/KayleLoadScreen.jpg",
+    "baseSplashPath": "/lol-game-data/assets/v1/champion-splashes/10/10000.jpg",
+    "botEnabled": true,
+    "chooseVoPath": "/lol-game-data/assets/v1/champion-choose-vo/10.ogg",
+    "disabledQueues": [],
+    "freeToPlay": true,
+    "id": 10,
+    "name": "凱爾",
+    "ownership": {
+        "freeToPlayReward": false,
+        "owned": false,
+        "rental": {
+            "endDate": 0,
+            "purchaseDate": 0,
+            "rented": false,
+            "winCountRemaining": 0
+        }
+    },
+    "purchased": 0,
+    "rankedPlayEnabled": true,
+    "roles": ["fighter", "support"],
+    "squarePortraitPath": "/lol-game-data/assets/v1/champion-icons/10.png",
+    "stingerSfxPath": "/lol-game-data/assets/v1/champion-sfx-audios/10.ogg",
+    "title": "正義天使"
+}, {
+    "active": true,
+    "alias": "Teemo",
+    "banVoPath": "/lol-game-data/assets/v1/champion-ban-vo/17.ogg",
+    "baseLoadScreenPath": "/lol-game-data/assets/ASSETS/Characters/Teemo/Skins/Base/teemoLoadScreen.jpg",
+    "baseSplashPath": "/lol-game-data/assets/v1/champion-splashes/17/17000.jpg",
+    "botEnabled": false,
+    "chooseVoPath": "/lol-game-data/assets/v1/champion-choose-vo/17.ogg",
+    "disabledQueues": ["ONEFORALL_5x5"],
+    "freeToPlay": true,
+    "id": 17,
+    "name": "提摩",
+    "ownership": {
+        "freeToPlayReward": false,
+        "owned": false,
+        "rental": {
+            "endDate": 0,
+            "purchaseDate": 0,
+            "rented": false,
+            "winCountRemaining": 0
+        }
+    },
+    "purchased": 0,
+    "rankedPlayEnabled": true,
+    "roles": ["marksman", "assassin"],
+    "squarePortraitPath": "/lol-game-data/assets/v1/champion-icons/17.png",
+    "stingerSfxPath": "/lol-game-data/assets/v1/champion-sfx-audios/17.ogg",
+    "title": "迅捷斥候"
+}, {
+    "active": true,
+    "alias": "Nunu",
+    "banVoPath": "/lol-game-data/assets/v1/champion-ban-vo/20.ogg",
+    "baseLoadScreenPath": "/lol-game-data/assets/ASSETS/Characters/Nunu/Skins/Base/NunuLoadScreen.jpg",
+    "baseSplashPath": "/lol-game-data/assets/v1/champion-splashes/20/20000.jpg",
+    "botEnabled": false,
+    "chooseVoPath": "/lol-game-data/assets/v1/champion-choose-vo/20.ogg",
+    "disabledQueues": [],
+    "freeToPlay": true,
+    "id": 20,
+    "name": "努努和威朗普",
+    "ownership": {
+        "freeToPlayReward": false,
+        "owned": false,
+        "rental": {
+            "endDate": 0,
+            "purchaseDate": 0,
+            "rented": false,
+            "winCountRemaining": 0
+        }
+    },
+    "purchased": 0,
+    "rankedPlayEnabled": true,
+    "roles": ["tank", "fighter"],
+    "squarePortraitPath": "/lol-game-data/assets/v1/champion-icons/20.png",
+    "stingerSfxPath": "/lol-game-data/assets/v1/champion-sfx-audios/20.ogg",
+    "title": "冰原拍檔"
+}, {
+    "active": true,
+    "alias": "MissFortune",
+    "banVoPath": "/lol-game-data/assets/v1/champion-ban-vo/21.ogg",
+    "baseLoadScreenPath": "/lol-game-data/assets/ASSETS/Characters/MissFortune/Skins/Base/MissFortuneLoadScreen.jpg",
+    "baseSplashPath": "/lol-game-data/assets/v1/champion-splashes/21/21000.jpg",
+    "botEnabled": true,
+    "chooseVoPath": "/lol-game-data/assets/v1/champion-choose-vo/21.ogg",
+    "disabledQueues": [],
+    "freeToPlay": false,
+    "id": 21,
+    "name": "好運姐",
+    "ownership": {
+        "freeToPlayReward": false,
+        "owned": true,
+        "rental": {
+            "endDate": 0,
+            "purchaseDate": 1627064548000,
+            "rented": false,
+            "winCountRemaining": 0
+        }
+    },
+    "purchased": 1627064548000,
+    "rankedPlayEnabled": true,
+    "roles": ["marksman"],
+    "squarePortraitPath": "/lol-game-data/assets/v1/champion-icons/21.png",
+    "stingerSfxPath": "/lol-game-data/assets/v1/champion-sfx-audios/21.ogg",
+    "title": "賞金獵人"
+}, {
+    "active": true,
+    "alias": "Zilean",
+    "banVoPath": "/lol-game-data/assets/v1/champion-ban-vo/26.ogg",
+    "baseLoadScreenPath": "/lol-game-data/assets/ASSETS/Characters/Zilean/Skins/Base/ZileanLoadScreen.jpg",
+    "baseSplashPath": "/lol-game-data/assets/v1/champion-splashes/26/26000.jpg",
+    "botEnabled": true,
+    "chooseVoPath": "/lol-game-data/assets/v1/champion-choose-vo/26.ogg",
+    "disabledQueues": [],
+    "freeToPlay": true,
+    "id": 26,
+    "name": "極靈",
+    "ownership": {
+        "freeToPlayReward": false,
+        "owned": false,
+        "rental": {
+            "endDate": 0,
+            "purchaseDate": 0,
+            "rented": false,
+            "winCountRemaining": 0
+        }
+    },
+    "purchased": 0,
+    "rankedPlayEnabled": true,
+    "roles": ["support", "mage"],
+    "squarePortraitPath": "/lol-game-data/assets/v1/champion-icons/26.png",
+    "stingerSfxPath": "/lol-game-data/assets/v1/champion-sfx-audios/26.ogg",
+    "title": "時光守護者"
+}, {
+    "active": true,
+    "alias": "DrMundo",
+    "banVoPath": "/lol-game-data/assets/v1/champion-ban-vo/36.ogg",
+    "baseLoadScreenPath": "/lol-game-data/assets/ASSETS/Characters/DrMundo/Skins/Base/DrMundoLoadscreen_0.Dr_Mundo_VGU.jpg",
+    "baseSplashPath": "/lol-game-data/assets/v1/champion-splashes/36/36000.jpg",
+    "botEnabled": true,
+    "chooseVoPath": "/lol-game-data/assets/v1/champion-choose-vo/36.ogg",
+    "disabledQueues": [],
+    "freeToPlay": true,
+    "id": 36,
+    "name": "蒙多醫生",
+    "ownership": {
+        "freeToPlayReward": false,
+        "owned": false,
+        "rental": {
+            "endDate": 0,
+            "purchaseDate": 0,
+            "rented": false,
+            "winCountRemaining": 0
+        }
+    },
+    "purchased": 0,
+    "rankedPlayEnabled": true,
+    "roles": ["fighter", "tank"],
+    "squarePortraitPath": "/lol-game-data/assets/v1/champion-icons/36.png",
+    "stingerSfxPath": "/lol-game-data/assets/v1/champion-sfx-audios/36.ogg",
+    "title": "佐恩狂人"
+}, {
+    "active": true,
+    "alias": "Kassadin",
+    "banVoPath": "/lol-game-data/assets/v1/champion-ban-vo/38.ogg",
+    "baseLoadScreenPath": "/lol-game-data/assets/ASSETS/Characters/Kassadin/Skins/Base/KassadinLoadScreen.jpg",
+    "baseSplashPath": "/lol-game-data/assets/v1/champion-splashes/38/38000.jpg",
+    "botEnabled": false,
+    "chooseVoPath": "/lol-game-data/assets/v1/champion-choose-vo/38.ogg",
+    "disabledQueues": [],
+    "freeToPlay": true,
+    "id": 38,
+    "name": "卡薩丁",
+    "ownership": {
+        "freeToPlayReward": false,
+        "owned": false,
+        "rental": {
+            "endDate": 0,
+            "purchaseDate": 0,
+            "rented": false,
+            "winCountRemaining": 0
+        }
+    },
+    "purchased": 0,
+    "rankedPlayEnabled": true,
+    "roles": ["assassin", "mage"],
+    "squarePortraitPath": "/lol-game-data/assets/v1/champion-icons/38.png",
+    "stingerSfxPath": "/lol-game-data/assets/v1/champion-sfx-audios/38.ogg",
+    "title": "虛空行者"
+}, {
+    "active": true,
+    "alias": "Udyr",
+    "banVoPath": "/lol-game-data/assets/v1/champion-ban-vo/77.ogg",
+    "baseLoadScreenPath": "/lol-game-data/assets/ASSETS/Characters/Udyr/Skins/Base/UdyrLoadScreen.jpg",
+    "baseSplashPath": "/lol-game-data/assets/v1/champion-splashes/77/77000.jpg",
+    "botEnabled": true,
+    "chooseVoPath": "/lol-game-data/assets/v1/champion-choose-vo/77.ogg",
+    "disabledQueues": [],
+    "freeToPlay": true,
+    "id": 77,
+    "name": "烏迪爾",
+    "ownership": {
+        "freeToPlayReward": false,
+        "owned": false,
+        "rental": {
+            "endDate": 0,
+            "purchaseDate": 0,
+            "rented": false,
+            "winCountRemaining": 0
+        }
+    },
+    "purchased": 0,
+    "rankedPlayEnabled": true,
+    "roles": ["fighter", "tank"],
+    "squarePortraitPath": "/lol-game-data/assets/v1/champion-icons/77.png",
+    "stingerSfxPath": "/lol-game-data/assets/v1/champion-sfx-audios/77.ogg",
+    "title": "神靈行者"
+}, {
+    "active": true,
+    "alias": "Gragas",
+    "banVoPath": "/lol-game-data/assets/v1/champion-ban-vo/79.ogg",
+    "baseLoadScreenPath": "/lol-game-data/assets/ASSETS/Characters/Gragas/Skins/Base/GragasLoadScreen.jpg",
+    "baseSplashPath": "/lol-game-data/assets/v1/champion-splashes/79/79000.jpg",
+    "botEnabled": false,
+    "chooseVoPath": "/lol-game-data/assets/v1/champion-choose-vo/79.ogg",
+    "disabledQueues": [],
+    "freeToPlay": true,
+    "id": 79,
+    "name": "古拉格斯",
+    "ownership": {
+        "freeToPlayReward": false,
+        "owned": false,
+        "rental": {
+            "endDate": 0,
+            "purchaseDate": 0,
+            "rented": false,
+            "winCountRemaining": 0
+        }
+    },
+    "purchased": 0,
+    "rankedPlayEnabled": true,
+    "roles": ["fighter", "mage"],
+    "squarePortraitPath": "/lol-game-data/assets/v1/champion-icons/79.png",
+    "stingerSfxPath": "/lol-game-data/assets/v1/champion-sfx-audios/79.ogg",
+    "title": "酒桶之王"
+}, {
+    "active": true,
+    "alias": "Ahri",
+    "banVoPath": "/lol-game-data/assets/v1/champion-ban-vo/103.ogg",
+    "baseLoadScreenPath": "/lol-game-data/assets/ASSETS/Characters/Ahri/Skins/Base/AhriLoadScreen.jpg",
+    "baseSplashPath": "/lol-game-data/assets/v1/champion-splashes/103/103000.jpg",
+    "botEnabled": false,
+    "chooseVoPath": "/lol-game-data/assets/v1/champion-choose-vo/103.ogg",
+    "disabledQueues": [],
+    "freeToPlay": true,
+    "id": 103,
+    "name": "阿璃",
+    "ownership": {
+        "freeToPlayReward": false,
+        "owned": false,
+        "rental": {
+            "endDate": 0,
+            "purchaseDate": 0,
+            "rented": false,
+            "winCountRemaining": 0
+        }
+    },
+    "purchased": 0,
+    "rankedPlayEnabled": true,
+    "roles": ["mage", "assassin"],
+    "squarePortraitPath": "/lol-game-data/assets/v1/champion-icons/103.png",
+    "stingerSfxPath": "/lol-game-data/assets/v1/champion-sfx-audios/103.ogg",
+    "title": "九尾妖狐"
+}, {
+    "active": true,
+    "alias": "Volibear",
+    "banVoPath": "/lol-game-data/assets/v1/champion-ban-vo/106.ogg",
+    "baseLoadScreenPath": "/lol-game-data/assets/ASSETS/Characters/Volibear/Skins/Base/VolibearLoadscreen.Voli.jpg",
+    "baseSplashPath": "/lol-game-data/assets/v1/champion-splashes/106/106000.jpg",
+    "botEnabled": false,
+    "chooseVoPath": "/lol-game-data/assets/v1/champion-choose-vo/106.ogg",
+    "disabledQueues": [],
+    "freeToPlay": true,
+    "id": 106,
+    "name": "弗力貝爾",
+    "ownership": {
+        "freeToPlayReward": false,
+        "owned": false,
+        "rental": {
+            "endDate": 0,
+            "purchaseDate": 0,
+            "rented": false,
+            "winCountRemaining": 0
+        }
+    },
+    "purchased": 0,
+    "rankedPlayEnabled": true,
+    "roles": ["fighter", "tank"],
+    "squarePortraitPath": "/lol-game-data/assets/v1/champion-icons/106.png",
+    "stingerSfxPath": "/lol-game-data/assets/v1/champion-sfx-audios/106.ogg",
+    "title": "無情風暴"
+}, {
+    "active": true,
+    "alias": "Varus",
+    "banVoPath": "/lol-game-data/assets/v1/champion-ban-vo/110.ogg",
+    "baseLoadScreenPath": "/lol-game-data/assets/ASSETS/Characters/Varus/Skins/Base/VarusLoadScreen.jpg",
+    "baseSplashPath": "/lol-game-data/assets/v1/champion-splashes/110/110000.jpg",
+    "botEnabled": false,
+    "chooseVoPath": "/lol-game-data/assets/v1/champion-choose-vo/110.ogg",
+    "disabledQueues": [],
+    "freeToPlay": true,
+    "id": 110,
+    "name": "法洛士",
+    "ownership": {
+        "freeToPlayReward": false,
+        "owned": false,
+        "rental": {
+            "endDate": 0,
+            "purchaseDate": 0,
+            "rented": false,
+            "winCountRemaining": 0
+        }
+    },
+    "purchased": 0,
+    "rankedPlayEnabled": true,
+    "roles": ["marksman", "mage"],
+    "squarePortraitPath": "/lol-game-data/assets/v1/champion-icons/110.png",
+    "stingerSfxPath": "/lol-game-data/assets/v1/champion-sfx-audios/110.ogg",
+    "title": "懲戒之箭"
+}, {
+    "active": true,
+    "alias": "Syndra",
+    "banVoPath": "/lol-game-data/assets/v1/champion-ban-vo/134.ogg",
+    "baseLoadScreenPath": "/lol-game-data/assets/ASSETS/Characters/Syndra/Skins/Base/SyndraLoadScreen.jpg",
+    "baseSplashPath": "/lol-game-data/assets/v1/champion-splashes/134/134000.jpg",
+    "botEnabled": false,
+    "chooseVoPath": "/lol-game-data/assets/v1/champion-choose-vo/134.ogg",
+    "disabledQueues": [],
+    "freeToPlay": true,
+    "id": 134,
+    "name": "星朵拉",
+    "ownership": {
+        "freeToPlayReward": false,
+        "owned": false,
+        "rental": {
+            "endDate": 0,
+            "purchaseDate": 0,
+            "rented": false,
+            "winCountRemaining": 0
+        }
+    },
+    "purchased": 0,
+    "rankedPlayEnabled": true,
+    "roles": ["mage", "support"],
+    "squarePortraitPath": "/lol-game-data/assets/v1/champion-icons/134.png",
+    "stingerSfxPath": "/lol-game-data/assets/v1/champion-sfx-audios/134.ogg",
+    "title": "黑暗領主"
+}, {
+    "active": true,
+    "alias": "Nami",
+    "banVoPath": "/lol-game-data/assets/v1/champion-ban-vo/267.ogg",
+    "baseLoadScreenPath": "/lol-game-data/assets/ASSETS/Characters/Nami/Skins/Base/NamiLoadScreen.jpg",
+    "baseSplashPath": "/lol-game-data/assets/v1/champion-splashes/267/267000.jpg",
+    "botEnabled": false,
+    "chooseVoPath": "/lol-game-data/assets/v1/champion-choose-vo/267.ogg",
+    "disabledQueues": [],
+    "freeToPlay": true,
+    "id": 267,
+    "name": "娜米",
+    "ownership": {
+        "freeToPlayReward": false,
+        "owned": false,
+        "rental": {
+            "endDate": 0,
+            "purchaseDate": 0,
+            "rented": false,
+            "winCountRemaining": 0
+        }
+    },
+    "purchased": 0,
+    "rankedPlayEnabled": true,
+    "roles": ["support", "mage"],
+    "squarePortraitPath": "/lol-game-data/assets/v1/champion-icons/267.png",
+    "stingerSfxPath": "/lol-game-data/assets/v1/champion-sfx-audios/267.ogg",
+    "title": "海潮之音"
+}, {
+    "active": true,
+    "alias": "Aphelios",
+    "banVoPath": "/lol-game-data/assets/v1/champion-ban-vo/523.ogg",
+    "baseLoadScreenPath": "/lol-game-data/assets/ASSETS/Characters/Aphelios/Skins/Base/ApheliosLoadScreen.Aphelios.jpg",
+    "baseSplashPath": "/lol-game-data/assets/v1/champion-splashes/523/523000.jpg",
+    "botEnabled": false,
+    "chooseVoPath": "/lol-game-data/assets/v1/champion-choose-vo/523.ogg",
+    "disabledQueues": [],
+    "freeToPlay": true,
+    "id": 523,
+    "name": "亞菲利歐",
+    "ownership": {
+        "freeToPlayReward": false,
+        "owned": false,
+        "rental": {
+            "endDate": 0,
+            "purchaseDate": 0,
+            "rented": false,
+            "winCountRemaining": 0
+        }
+    },
+    "purchased": 0,
+    "rankedPlayEnabled": true,
+    "roles": ["marksman"],
+    "squarePortraitPath": "/lol-game-data/assets/v1/champion-icons/523.png",
+    "stingerSfxPath": "/lol-game-data/assets/v1/champion-sfx-audios/523.ogg",
+    "title": "信仰銳武"
+}, {
+    "active": true,
+    "alias": "Yone",
+    "banVoPath": "/lol-game-data/assets/v1/champion-ban-vo/777.ogg",
+    "baseLoadScreenPath": "/lol-game-data/assets/ASSETS/Characters/Yone/Skins/Base/YoneLoadScreen.Yone.jpg",
+    "baseSplashPath": "/lol-game-data/assets/v1/champion-splashes/777/777000.jpg",
+    "botEnabled": false,
+    "chooseVoPath": "/lol-game-data/assets/v1/champion-choose-vo/777.ogg",
+    "disabledQueues": [],
+    "freeToPlay": false,
+    "id": 777,
+    "name": "犽凝",
+    "ownership": {
+        "freeToPlayReward": false,
+        "owned": true,
+        "rental": {
+            "endDate": 0,
+            "purchaseDate": 1627743182000,
+            "rented": false,
+            "winCountRemaining": 0
+        }
+    },
+    "purchased": 1627743182000,
+    "rankedPlayEnabled": true,
+    "roles": ["assassin", "fighter"],
+    "squarePortraitPath": "/lol-game-data/assets/v1/champion-icons/777.png",
+    "stingerSfxPath": "/lol-game-data/assets/v1/champion-sfx-audios/777.ogg",
+    "title": "不滅劍豪"
+}]

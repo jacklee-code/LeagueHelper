@@ -1,0 +1,6 @@
+{
+    "errorCode": "RPC_ERROR",
+    "httpStatus": 404,
+    "implementationDetails": {},
+    "message": "Not attached to a matchmaking queue."
+}

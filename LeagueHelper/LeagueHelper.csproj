@@ -4,6 +4,37 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+    <!-- Identify Target Platforms -->
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <!-- Self Contained -->
+    <PublishSingleFile>true</PublishSingleFile>
+    <!-- Trimming Dependencies -->
+    <PublishTrimmed>true</PublishTrimmed>
+    <Authors>Jack Lee</Authors>
+    <Company>Jack Lee</Company>
+    <Product>英雄聯盟小助手</Product>
+    <PackageId>英雄聯盟小助手</PackageId>
+    <AssemblyName>英雄聯盟小助手</AssemblyName>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
 
 </Project>
