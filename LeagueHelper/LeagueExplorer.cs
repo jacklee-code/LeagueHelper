@@ -14,16 +14,20 @@ namespace LeagueHelper
     {
         private HttpClient httpClient;
 
-        public String debugAuthorizaation = "";
-
         public String urlRoot = "";
+        public String password = ""; //Only set as public when debug mode is on
         public Summoner Summoner = new Summoner();
 
         public LockFile lockFile;
 
-        public bool isProcessStart => Process.GetProcessesByName("LeagueClient").Length > 0;
+        public bool isProcessStart
+        {
+            get => Process.GetProcessesByName("LeagueClient").Length > 0;
+        }
 
-        public Process LeagueClient => isProcessStart ? Process.GetProcessesByName("LeagueClient")[0] : null;
+        public Process LeagueClient {
+            get => isProcessStart ? Process.GetProcessesByName("LeagueClient")[0] : null;
+        }
 
         public LeagueExplorer()
         {
@@ -38,7 +42,7 @@ namespace LeagueHelper
             httpClient = new HttpClient(handler);
         }
 
-        public async Task initializeData()
+        public void initializePreloadData()
         {
             try
             {
@@ -48,48 +52,65 @@ namespace LeagueHelper
                     lockFile = new LockFile(processName.Remove(processName.LastIndexOf('\\')) + "\\lockfile");
                     urlRoot = lockFile.protocal + "://" + "127.0.0.1:" + lockFile.portNumber;
                     byte[] passwordByte = System.Text.ASCIIEncoding.ASCII.GetBytes($"{lockFile.account}:{lockFile.password}");
-                    String password = Convert.ToBase64String(passwordByte);
-                    //DEBUG ::
-                    debugAuthorizaation = password;
-                    //DBUG END ::
+                    password = Convert.ToBase64String(passwordByte);
                     httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", password);
-                    const String path = "/lol-chat/v1/me";
-                    String jsonString = await httpClient.GetStringAsync(urlRoot + path);
-                    dynamic classStructure = JsonConvert.DeserializeObject(jsonString);
-                    getSummonerBasicDetail(classStructure);
                 }
             }
             catch { }        
         }
 
-        private void getSummonerBasicDetail(dynamic obj)
-        {
-            Summoner.SummonerID = obj.summonerId;
-            Summoner.Name = obj.name;
-            Summoner.StatusMessage = obj.statusMessage;
-            Summoner.Region = obj.platformId;
-            Summoner.Level = (int)obj.lol.level;
-            Summoner.GameStatus = obj.lol.gameStatus;
-        }
 
-        private async Task updateGameStatus()
+        private async Task<bool> updateGameStatus()
         {
             try
             {
-                String jsonString = await httpClient.GetStringAsync(urlRoot + "/lol-chat/v1/me");
-                dynamic classStructure = JsonConvert.DeserializeObject(jsonString);
+                HttpResponseMessage response = await httpClient.GetAsync(urlRoot + "/lol-chat/v1/me");
+                if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                    return false;
+
+                dynamic classStructure = JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync());
                 Summoner.GameStatus = classStructure.lol.gameStatus;
             }
-            catch { }
+            catch { return false; }
+
+            return true;
             
         }
 
         //.............. public functions of different misc feature ...................
+
+        public async Task<bool> refreshSummonerBasicDetail()
+        {
+            try
+            {
+                HttpResponseMessage response = await httpClient.GetAsync(urlRoot + "/lol-chat/v1/me");
+                if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                    return false;
+
+                dynamic obj = JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync());
+
+                //object control
+                Summoner.SummonerID = obj.summonerId;
+                Summoner.Name = obj.name;
+                Summoner.StatusMessage = obj.statusMessage;
+                Summoner.Region = obj.platformId;
+                Summoner.Level = (int)obj.lol.level;
+                Summoner.GameStatus = obj.lol.gameStatus;
+            }
+            catch { return false; }
+
+            return true;
+        }
+
         public async Task<bool> isMatchFound()
         {
             try
             {
-                String jsonResult = await httpClient.GetStringAsync(urlRoot + "/lol-matchmaking/v1/ready-check");
+                HttpResponseMessage response = await httpClient.GetAsync(urlRoot + "/lol-matchmaking/v1/ready-check");
+                if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                    return false;
+
+                String jsonResult = await httpClient.GetStringAsync(await response.Content.ReadAsStringAsync());
                 const String foundMatchString = "InProgress";
                 dynamic obj = JsonConvert.DeserializeObject(jsonResult);
                 if (obj.state == foundMatchString)
@@ -105,18 +126,27 @@ namespace LeagueHelper
             catch { }
         }
 
-        public async Task refreshAvaiableChampionList()
+        public async Task<bool> refreshAvaiableChampionList()
         {
-            dynamic avaiableChampObj = JsonConvert.DeserializeObject(await httpClient.GetStringAsync(urlRoot + "/lol-champions/v1/owned-champions-minimal"));           
-            Dictionary<string, string> dict = new Dictionary<string, string>();
-            int count = avaiableChampObj.Count;
-            for (int i = 0; i < count; i++)
+            HttpResponseMessage response = await httpClient.GetAsync(urlRoot + "/lol-champions/v1/owned-champions-minimal");
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                return false;
+
+            try
             {
-                String id = avaiableChampObj[i].id;
-                String fullname = $"{avaiableChampObj[i].title} {avaiableChampObj[i].name}";
-                dict.Add(id, fullname);
-            }
-            Summoner.AvailableChampionsNameIDPair = dict;
+                dynamic avaiableChampObj = JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync());
+                Dictionary<string, string> dict = new Dictionary<string, string>();
+                int count = avaiableChampObj.Count;
+                for (int i = 0; i < count; i++)
+                {
+                    String id = avaiableChampObj[i].id;
+                    String fullname = $"{avaiableChampObj[i].title} {avaiableChampObj[i].name}";
+                    dict.Add(id, fullname);
+                }
+                Summoner.AvailableChampionsNameIDPair = dict;
+            } catch { return false; }
+
+            return true;
         }
 
         public async Task pickChampion(String championId)
@@ -148,9 +178,13 @@ namespace LeagueHelper
         public async Task<bool> sendMessageInSelectionMenu(String message, int frequency = 1, bool isSystemMessage = false)
         {
             try
-            {
+            {              
+                bool success = await updateGameStatus();
+                if (!success)
+                    return false;
+                    
+
                 //get if player is in selection menu
-                await updateGameStatus();
                 if (Summoner.GameStatus != Summoner.GAME_STATUS.SELECTING_CHAMP)
                     return false;
 

@@ -14,6 +14,9 @@ namespace LeagueHelper
             public const String LOBBY = "outOfGame";
             public const String QUEUING = "inQueue";
             public const String SELECTING_CHAMP = "championSelect";
+            public const String CREATE_CUSTOM = "hosting_Custom";
+            public const String CREATE_NORMAL = "hosting_Normal";
+            public const String CREATE_ARAM = "hosting_ARAM_UNRANKED_5x5";
         }
 
         private const String REGION_TW = "TW";
@@ -39,6 +42,17 @@ namespace LeagueHelper
         public int Level { get; set; }
 
         public Dictionary<string,string> AvailableChampionsNameIDPair { get; set; }
+
+
+        //public methods
+        public void ClearData()
+        {
+            Name = "";
+            StatusMessage = "";
+            Region = "";
+            GameStatus = "";
+            Level = -1;
+        }
 
     }
 }

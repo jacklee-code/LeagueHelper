@@ -64,7 +64,8 @@ namespace LeagueHelper
 
         private void timer_checkProccess_Tick(object sender, EventArgs e)
         {
-            bool currentStatus = Process.GetProcessesByName("LeagueClient").Length > 0;
+            timer_checkProccess.Stop();
+            bool currentStatus = leagueExplorer.isProcessStart;
             if (currentStatus != globalStatus)
             {
                 if (currentStatus)
@@ -74,10 +75,19 @@ namespace LeagueHelper
             }
 
             globalStatus = currentStatus;
+            timer_checkProccess.Start();
         }
 
         private void client_OnStop()
         {
+            //Stop all function timer
+            timer_requestCycle.Stop();
+            timer_autoAccept.Stop();
+            timer_autoPickLane.Stop();
+            timer_autoPickChamp.Stop();
+            timer_monitorStatus.Stop();
+
+
             txt_processStatus.Text = statusFail;
             txt_processStatus.ForeColor = Color.Red;
             btn_refresh.Visible = false;
@@ -85,14 +95,17 @@ namespace LeagueHelper
             //Basic Function
             toggle_autoAccept.Enabled = false;
             toggle_autoPickChamp.Enabled = false;
+            listbox_selectChamp.DataSource = null;
             listbox_selectChamp.Items.Clear();
             toggle_autoPickLane.Enabled = false;
 
             //Clean Data
             txt_summonerName.Text = "";
             txt_statusMessage.Text = "";
+            txt_gameStatus.Text = "";
+            txt_gameRegion.Text = "";
+            txt_summonerLevel.Text = "";
 
-            timer_requestCycle.Stop();
         }
 
         private async void client_OnStart()
@@ -109,53 +122,73 @@ namespace LeagueHelper
             toggle_autoPickLane.Enabled = true;
 
             //Show Avaiable Champions
-            refreshAvaiableChampionList();
+            await refreshAvaiableChampionList();
 
+            //Start timers
             timer_requestCycle.Start();
+            timer_autoAccept.Enabled = toggle_autoAccept.Checked;
+            timer_autoPickLane.Enabled = toggle_autoPickLane.Checked;
         }
 
         private async void btn_refresh_Click(object sender, EventArgs e)
         {
             timer_requestCycle.Stop();
             await refreshAllSummonerData();
+            await refreshAvaiableChampionList();
             timer_requestCycle.Start();
         }
 
         //cycle + refesh button
         private async Task refreshAllSummonerData()
         {
-            await leagueExplorer.initializeData();
-            txt_summonerName.Text = leagueExplorer.Summoner.Name;
-            txt_statusMessage.Text = leagueExplorer.Summoner.StatusMessage;
-            txt_gameRegion.Text = leagueExplorer.Summoner.Region;
-            txt_summonerLevel.Text = leagueExplorer.Summoner.Level.ToString();
+            leagueExplorer.initializePreloadData();
+            bool success = await leagueExplorer.refreshSummonerBasicDetail();
 
-            switch (leagueExplorer.Summoner.GameStatus)
+            if (success)
             {
-                case Summoner.GAME_STATUS.PLAYING:
-                    txt_gameStatus.Text = "遊玩中";
-                    break;
-                case Summoner.GAME_STATUS.LOBBY:
-                    txt_gameStatus.Text = "在線";
-                    break;
-                case Summoner.GAME_STATUS.QUEUING:
-                    txt_gameStatus.Text = "列隊中";
-                    break;
-                default:
-                    txt_gameStatus.Text = leagueExplorer.Summoner.GameStatus;
-                    break;
+                txt_summonerName.Text = leagueExplorer.Summoner.Name;
+                txt_statusMessage.Text = leagueExplorer.Summoner.StatusMessage;
+                txt_gameRegion.Text = leagueExplorer.Summoner.Region;
+                txt_summonerLevel.Text = leagueExplorer.Summoner.Level.ToString();
+
+                switch (leagueExplorer.Summoner.GameStatus)
+                {
+                    case Summoner.GAME_STATUS.PLAYING:
+                        txt_gameStatus.Text = "遊玩中";
+                        break;
+                    case Summoner.GAME_STATUS.LOBBY:
+                        txt_gameStatus.Text = "在線";
+                        break;
+                    case Summoner.GAME_STATUS.QUEUING:
+                        txt_gameStatus.Text = "列隊等待中";
+                        break;
+                    case Summoner.GAME_STATUS.CREATE_ARAM:
+                        txt_gameStatus.Text = "建立ARAM中";
+                        break;
+                    case Summoner.GAME_STATUS.CREATE_NORMAL:
+                        txt_gameStatus.Text = "建立一般對戰中";
+                        break;
+                    case Summoner.GAME_STATUS.CREATE_CUSTOM:
+                        txt_gameStatus.Text = "創建自訂遊戲";
+                        break;
+                    default:
+                        txt_gameStatus.Text = leagueExplorer.Summoner.GameStatus;
+                        break;
+                }
             }
 
             //DEBUG::
             txt_debug1.Text = leagueExplorer.urlRoot;
-            txt_debug2.Text = "Authorization: Basic " + leagueExplorer.debugAuthorizaation;
+            txt_debug2.Text = "Authorization: Basic " + leagueExplorer.password;
             //DEBUG END ::
         }
 
 
         private async void timer_requestCycle_Tick(object sender, EventArgs e)
         {
+            timer_requestCycle.Stop();
             await refreshAllSummonerData();
+            timer_requestCycle.Start();
         }
 
         private void toggle_AutoAccept_CheckedChanged(object sender, EventArgs e)
@@ -168,9 +201,11 @@ namespace LeagueHelper
 
         private async void timer_autoAccept_Tick(object sender, EventArgs e)
         {
+            timer_autoAccept.Stop();
             bool result = await leagueExplorer.isMatchFound();
             if (result)
                 await leagueExplorer.acceptMatch();
+            timer_autoAccept.Start();
         }
 
         private void toggle_autopick_CheckedChanged(object sender, EventArgs e)
@@ -183,18 +218,24 @@ namespace LeagueHelper
 
         private async void timer_autoPickChamp_Tick(object sender, EventArgs e)
         {
+            timer_autoPickChamp.Stop();
             if (listbox_selectChamp.Items.Count > 0)
+            {
                 await leagueExplorer.pickChampion(listbox_selectChamp.SelectedValue.ToString());
+                timer_autoPickChamp.Start();
+            }
             else
             {
-                timer_autoPickChamp.Stop();
                 toggle_autoPickChamp.Checked = false;
                 MessageBox.Show("目前無法取得可用英雄，請刷新英雄列表");
             }
+            
         }
 
         private void toggle_autoPickLane_CheckedChanged(object sender, EventArgs e)
         {
+            if (!toggle_autoPickLane.Checked)
+                timer_monitorStatus.Stop();
             timer_autoPickLane.Enabled = toggle_autoPickLane.Checked;
         }
 
@@ -216,7 +257,7 @@ namespace LeagueHelper
             }
             bool finished = await leagueExplorer.sendMessageInSelectionMenu(fullMessage.Remove(fullMessage.Length-1), freq, false);
             if (finished)
-                toggle_autoPickLane.Checked = false;
+                timer_monitorStatus.Start();
             else
                 timer_autoPickLane.Start();
         }
@@ -230,21 +271,34 @@ namespace LeagueHelper
             }
         }
 
-        private async void refreshAvaiableChampionList()
+        private async Task refreshAvaiableChampionList()
         {
             try
             {
-                await leagueExplorer.refreshAvaiableChampionList();
-                listbox_selectChamp.DataSource = new BindingSource(leagueExplorer.Summoner.AvailableChampionsNameIDPair, null);
-                listbox_selectChamp.DisplayMember = "Value";
-                listbox_selectChamp.ValueMember = "Key";
+                bool success = await leagueExplorer.refreshAvaiableChampionList();
+                if (success)
+                {
+                    listbox_selectChamp.DataSource = new BindingSource(leagueExplorer.Summoner.AvailableChampionsNameIDPair, null);
+                    listbox_selectChamp.DisplayMember = "Value";
+                    listbox_selectChamp.ValueMember = "Key";
+                }
             }
             catch { } 
         }
 
-        private void btn_refreshAvaiableChamp_Click(object sender, EventArgs e)
+        private async void btn_refreshAvaiableChamp_Click(object sender, EventArgs e)
         {
-            refreshAvaiableChampionList();
+            await refreshAvaiableChampionList();
+        }
+
+        private async void timer_monitorStatus_Tick(object sender, EventArgs e)
+        {
+            timer_monitorStatus.Stop();
+            await refreshAllSummonerData();
+            if (leagueExplorer.Summoner.GameStatus != Summoner.GAME_STATUS.SELECTING_CHAMP)
+                timer_autoPickLane.Start();
+            else
+                timer_monitorStatus.Start();
         }
     }
 }
