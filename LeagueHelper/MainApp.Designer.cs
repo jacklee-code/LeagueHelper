@@ -50,7 +50,6 @@ namespace LeagueHelper
             this.txt_pickLaneFrequceny = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
             this.checkList_selectLane = new System.Windows.Forms.CheckedListBox();
             this.toggle_autoPickLane = new System.Windows.Forms.CheckBox();
             this.listbox_selectChamp = new System.Windows.Forms.ComboBox();
@@ -64,6 +63,7 @@ namespace LeagueHelper
             this.timer_autoAccept = new System.Windows.Forms.Timer(this.components);
             this.timer_autoPickChamp = new System.Windows.Forms.Timer(this.components);
             this.timer_autoPickLane = new System.Windows.Forms.Timer(this.components);
+            this.btn_refreshAvaiableChamp = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabInfo.SuspendLayout();
             this.tabBasic.SuspendLayout();
@@ -238,10 +238,10 @@ namespace LeagueHelper
             // 
             // tabBasic
             // 
+            this.tabBasic.Controls.Add(this.btn_refreshAvaiableChamp);
             this.tabBasic.Controls.Add(this.txt_pickLaneFrequceny);
             this.tabBasic.Controls.Add(this.label8);
             this.tabBasic.Controls.Add(this.label7);
-            this.tabBasic.Controls.Add(this.label6);
             this.tabBasic.Controls.Add(this.checkList_selectLane);
             this.tabBasic.Controls.Add(this.toggle_autoPickLane);
             this.tabBasic.Controls.Add(this.listbox_selectChamp);
@@ -257,7 +257,7 @@ namespace LeagueHelper
             // 
             // txt_pickLaneFrequceny
             // 
-            this.txt_pickLaneFrequceny.Location = new System.Drawing.Point(442, 197);
+            this.txt_pickLaneFrequceny.Location = new System.Drawing.Point(431, 149);
             this.txt_pickLaneFrequceny.Name = "txt_pickLaneFrequceny";
             this.txt_pickLaneFrequceny.Size = new System.Drawing.Size(61, 38);
             this.txt_pickLaneFrequceny.TabIndex = 7;
@@ -268,7 +268,7 @@ namespace LeagueHelper
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(509, 200);
+            this.label8.Location = new System.Drawing.Point(498, 152);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(157, 30);
             this.label8.TabIndex = 6;
@@ -277,26 +277,16 @@ namespace LeagueHelper
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(375, 200);
+            this.label7.Location = new System.Drawing.Point(364, 152);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(61, 30);
             this.label7.TabIndex = 6;
             this.label7.Text = "發送";
             // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(375, 148);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(191, 30);
-            this.label6.TabIndex = 6;
-            this.label6.Text = "每0.5秒發送一次";
-            // 
             // checkList_selectLane
             // 
             this.checkList_selectLane.CheckOnClick = true;
             this.checkList_selectLane.ColumnWidth = 100;
-            this.checkList_selectLane.Enabled = false;
             this.checkList_selectLane.FormattingEnabled = true;
             this.checkList_selectLane.Items.AddRange(new object[] {
             "上路",
@@ -324,7 +314,6 @@ namespace LeagueHelper
             // 
             // listbox_selectChamp
             // 
-            this.listbox_selectChamp.Enabled = false;
             this.listbox_selectChamp.FormattingEnabled = true;
             this.listbox_selectChamp.Location = new System.Drawing.Point(183, 78);
             this.listbox_selectChamp.Name = "listbox_selectChamp";
@@ -382,7 +371,7 @@ namespace LeagueHelper
             this.btn_refresh.Name = "btn_refresh";
             this.btn_refresh.Size = new System.Drawing.Size(39, 41);
             this.btn_refresh.TabIndex = 3;
-            this.tooltip1.SetToolTip(this.btn_refresh, "刷新數據");
+            this.tooltip1.SetToolTip(this.btn_refresh, "重新取得資料");
             this.btn_refresh.UseVisualStyleBackColor = false;
             this.btn_refresh.Visible = false;
             this.btn_refresh.Click += new System.EventHandler(this.btn_refresh_Click);
@@ -406,6 +395,16 @@ namespace LeagueHelper
             // 
             this.timer_autoPickLane.Interval = 500;
             this.timer_autoPickLane.Tick += new System.EventHandler(this.timer_autoPickLane_Tick);
+            // 
+            // btn_refreshAvaiableChamp
+            // 
+            this.btn_refreshAvaiableChamp.Location = new System.Drawing.Point(560, 78);
+            this.btn_refreshAvaiableChamp.Name = "btn_refreshAvaiableChamp";
+            this.btn_refreshAvaiableChamp.Size = new System.Drawing.Size(168, 38);
+            this.btn_refreshAvaiableChamp.TabIndex = 8;
+            this.btn_refreshAvaiableChamp.Text = "刷新英雄列表";
+            this.btn_refreshAvaiableChamp.UseVisualStyleBackColor = true;
+            this.btn_refreshAvaiableChamp.Click += new System.EventHandler(this.btn_refreshAvaiableChamp_Click);
             // 
             // MainApp
             // 
@@ -469,10 +468,10 @@ namespace LeagueHelper
         private System.Windows.Forms.CheckBox amp;
         private System.Windows.Forms.CheckBox le;
         private System.Windows.Forms.CheckBox ad;
-        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox txt_pickLaneFrequceny;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Button btn_refreshAvaiableChamp;
     }
 }
 

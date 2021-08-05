@@ -7,3 +7,9 @@
   "body": "TEXT",
   "type": "chat"
 }
+
+//Send system message (Yello text without sender)
+{
+    "body":"",
+    "type":"celebration"
+}

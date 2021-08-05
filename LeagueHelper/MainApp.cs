@@ -85,9 +85,8 @@ namespace LeagueHelper
             //Basic Function
             toggle_autoAccept.Enabled = false;
             toggle_autoPickChamp.Enabled = false;
-            listbox_selectChamp.Enabled = false;
+            listbox_selectChamp.Items.Clear();
             toggle_autoPickLane.Enabled = false;
-            checkList_selectLane.Enabled = false;
 
             //Clean Data
             txt_summonerName.Text = "";
@@ -107,9 +106,10 @@ namespace LeagueHelper
             //Basic Function
             toggle_autoAccept.Enabled = true;
             toggle_autoPickChamp.Enabled = true;
-            listbox_selectChamp.Enabled = toggle_autoPickChamp.Checked;
             toggle_autoPickLane.Enabled = true;
-            checkList_selectLane.Enabled = toggle_autoPickLane.Checked;
+
+            //Show Avaiable Champions
+            refreshAvaiableChampionList();
 
             timer_requestCycle.Start();
         }
@@ -176,44 +176,25 @@ namespace LeagueHelper
         private void toggle_autopick_CheckedChanged(object sender, EventArgs e)
         {
             if (toggle_autoPickChamp.Checked)
-            {
-                try
-                {
-                    timer_autoPickChamp.Start();
-                    listbox_selectChamp.Enabled = true;
-                    listbox_selectChamp.DataSource = new BindingSource(leagueExplorer.Summoner.AvailableChampionsNameIDPair, null);
-                    listbox_selectChamp.DisplayMember = "Value";
-                    listbox_selectChamp.ValueMember = "Key";
-                }
-                catch { }
-
-            }
+                timer_autoPickChamp.Start();
             else
-            {
-                listbox_selectChamp.Enabled = false;
                 timer_autoPickChamp.Stop();
-            }
         }
 
         private async void timer_autoPickChamp_Tick(object sender, EventArgs e)
         {
-
-            try
-            {
-                if (listbox_selectChamp.Items.Count < 1)
-                {
-                    listbox_selectChamp.DataSource = new BindingSource(leagueExplorer.Summoner.AvailableChampionsNameIDPair, null);
-                    listbox_selectChamp.DisplayMember = "Value";
-                    listbox_selectChamp.ValueMember = "Key";
-                }
+            if (listbox_selectChamp.Items.Count > 0)
                 await leagueExplorer.pickChampion(listbox_selectChamp.SelectedValue.ToString());
+            else
+            {
+                timer_autoPickChamp.Stop();
+                toggle_autoPickChamp.Checked = false;
+                MessageBox.Show("目前無法取得可用英雄，請刷新英雄列表");
             }
-            catch { }
         }
 
         private void toggle_autoPickLane_CheckedChanged(object sender, EventArgs e)
         {
-            checkList_selectLane.Enabled = toggle_autoPickLane.Checked;
             timer_autoPickLane.Enabled = toggle_autoPickLane.Checked;
         }
 
@@ -233,7 +214,7 @@ namespace LeagueHelper
             {
                 fullMessage += $"{laneNames[index]}+";
             }
-            bool finished = await leagueExplorer.sendMessageInSelectionMenu(fullMessage.Remove(fullMessage.Length-1), freq);
+            bool finished = await leagueExplorer.sendMessageInSelectionMenu(fullMessage.Remove(fullMessage.Length-1), freq, false);
             if (finished)
                 toggle_autoPickLane.Checked = false;
             else
@@ -247,6 +228,23 @@ namespace LeagueHelper
             {
                 e.Handled = true;
             }
+        }
+
+        private async void refreshAvaiableChampionList()
+        {
+            try
+            {
+                await leagueExplorer.refreshAvaiableChampionList();
+                listbox_selectChamp.DataSource = new BindingSource(leagueExplorer.Summoner.AvailableChampionsNameIDPair, null);
+                listbox_selectChamp.DisplayMember = "Value";
+                listbox_selectChamp.ValueMember = "Key";
+            }
+            catch { } 
+        }
+
+        private void btn_refreshAvaiableChamp_Click(object sender, EventArgs e)
+        {
+            refreshAvaiableChampionList();
         }
     }
 }

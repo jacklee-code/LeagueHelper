@@ -57,9 +57,6 @@ namespace LeagueHelper
                     String jsonString = await httpClient.GetStringAsync(urlRoot + path);
                     dynamic classStructure = JsonConvert.DeserializeObject(jsonString);
                     getSummonerBasicDetail(classStructure);
-                    //Get Summoner avaiable champion
-                    dynamic avaiableChampObj = JsonConvert.DeserializeObject(await httpClient.GetStringAsync(urlRoot + "/lol-champions/v1/owned-champions-minimal"));
-                    Summoner.AvailableChampionsNameIDPair = parseAvaiableChampionPair(avaiableChampObj);
                 }
             }
             catch { }        
@@ -73,19 +70,6 @@ namespace LeagueHelper
             Summoner.Region = obj.platformId;
             Summoner.Level = (int)obj.lol.level;
             Summoner.GameStatus = obj.lol.gameStatus;
-        }
-
-        private Dictionary<string,string> parseAvaiableChampionPair(dynamic obj)
-        {
-            Dictionary<string, string> dict = new Dictionary<string, string>();
-            int count = obj.Count;
-            for (int i=0; i < count; i++)
-            {
-                String id = obj[i].id;
-                String fullname = $"{obj[i].title} {obj[i].name}";
-                dict.Add(id, fullname);
-            }
-            return dict;
         }
 
         private async Task updateGameStatus()
@@ -121,6 +105,20 @@ namespace LeagueHelper
             catch { }
         }
 
+        public async Task refreshAvaiableChampionList()
+        {
+            dynamic avaiableChampObj = JsonConvert.DeserializeObject(await httpClient.GetStringAsync(urlRoot + "/lol-champions/v1/owned-champions-minimal"));           
+            Dictionary<string, string> dict = new Dictionary<string, string>();
+            int count = avaiableChampObj.Count;
+            for (int i = 0; i < count; i++)
+            {
+                String id = avaiableChampObj[i].id;
+                String fullname = $"{avaiableChampObj[i].title} {avaiableChampObj[i].name}";
+                dict.Add(id, fullname);
+            }
+            Summoner.AvailableChampionsNameIDPair = dict;
+        }
+
         public async Task pickChampion(String championId)
         {
             try
@@ -147,7 +145,7 @@ namespace LeagueHelper
             catch { }
         }
 
-        public async Task<bool> sendMessageInSelectionMenu(String message, int frequency = 1)
+        public async Task<bool> sendMessageInSelectionMenu(String message, int frequency = 1, bool isSystemMessage = false)
         {
             try
             {
@@ -174,7 +172,7 @@ namespace LeagueHelper
                     return false;
                     
                 //Start to send message
-                HttpContent messageContent = new StringContent($"{{\"body\":\"{message}\"}}", Encoding.UTF8, "application/json");
+                HttpContent messageContent = new StringContent($"{{\"body\":\"{message}\",\"type\":\"{(isSystemMessage? "celebration":"chat")}\"}}", Encoding.UTF8, "application/json");
                 HttpResponseMessage response;
                 for (int i = 0; i < frequency; i++)
                 {
