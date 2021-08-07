@@ -75,6 +75,7 @@ namespace LeagueHelper
 #endif
         }
 
+#if DEBUG
         public async void WriteNewVersionToJson(Version version)
         {
             List<Version> versions = await GetVersions();
@@ -86,8 +87,10 @@ namespace LeagueHelper
                 sr.Write(json);
             }
         }
+#endif
 
     }
+
 
     public class Version
     {

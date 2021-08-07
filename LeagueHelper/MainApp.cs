@@ -135,6 +135,22 @@ namespace LeagueHelper
             timer_requestCycle.Start();
             timer_autoAccept.Enabled = toggle_autoAccept.Checked;
             timer_autoPickLane.Enabled = toggle_autoPickLane.Checked;
+
+            //Properties Setting
+            toggle_autoAccept.Checked = Properties.Settings.Default.autoAccept;
+            toggle_autoPickLane.Checked = Properties.Settings.Default.autoPickLane;
+            toggle_autoPickChamp.Checked = Properties.Settings.Default.autoPickChamp;
+            txt_pickLaneFrequceny.Text = Properties.Settings.Default.pickLaneFreq.ToString();
+
+            String lanes = Properties.Settings.Default.selectedLanes;
+            if (lanes.Length > 0)
+            {
+                foreach (string index in lanes.Split(';'))
+                    checkList_selectLane.SetItemCheckState(int.Parse(index), CheckState.Checked);
+            }
+
+            if (listbox_selectChamp.Items.Count > 0)
+                listbox_selectChamp.SelectedValue = Properties.Settings.Default.champId;
         }
 
         private async void btn_refresh_Click(object sender, EventArgs e)
@@ -267,7 +283,18 @@ namespace LeagueHelper
         private void toggle_autopick_CheckedChanged(object sender, EventArgs e)
         {
             if (toggle_autoPickChamp.Checked)
-                timer_autoPickChamp.Start();
+            {
+                if (listbox_selectChamp.SelectedIndex < 0)
+                {
+                    MessageBox.Show("請先選擇英雄。");
+                    toggle_autoPickChamp.Checked = false;
+                    return;
+                } else
+                {
+                    timer_autoPickChamp.Start();
+                }
+            }
+                
             else
                 timer_autoPickChamp.Stop();
         }
@@ -374,6 +401,43 @@ namespace LeagueHelper
         {
             CheckUpdate();
             WriteChangelogInfo();
+        }
+
+        private void MainApp_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Properties.Settings.Default.autoAccept = toggle_autoAccept.Checked;
+            Properties.Settings.Default.autoPickChamp = toggle_autoPickChamp.Checked;
+            if (toggle_autoPickChamp.Checked)
+                Properties.Settings.Default.champId = listbox_selectChamp.SelectedValue.ToString();
+            Properties.Settings.Default.autoPickLane = toggle_autoPickLane.Checked;
+            Properties.Settings.Default.selectedLanes = "";
+            string temp = "";
+            foreach (int index in checkList_selectLane.CheckedIndices)
+            {
+                temp += index + ";";
+            }
+
+            if (temp.Length > 0)
+                Properties.Settings.Default.selectedLanes = temp.Remove(temp.Length - 1);
+            Properties.Settings.Default.pickLaneFreq = int.Parse(txt_pickLaneFrequceny.Text);
+            Properties.Settings.Default.Save();
+        }
+
+        private void notifyIcon1_Click(object sender, EventArgs e)
+        {
+            Show();
+            Activate();
+            WindowState = FormWindowState.Normal;
+            notifyIcon1.Visible = false;
+        }
+
+        private void MainApp_Resize(object sender, EventArgs e)
+        {
+            if (this.WindowState == FormWindowState.Minimized)
+            {
+                Hide();
+                notifyIcon1.Visible = true;
+            }
         }
     }
 }

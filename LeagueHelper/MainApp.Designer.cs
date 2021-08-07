@@ -71,6 +71,7 @@ namespace LeagueHelper
             this.timer_autoPickLane = new System.Windows.Forms.Timer(this.components);
             this.timer_monitorStatus = new System.Windows.Forms.Timer(this.components);
             this.txt_version = new System.Windows.Forms.Label();
+            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.tabControl1.SuspendLayout();
             this.tabInfo.SuspendLayout();
             this.tabBasic.SuspendLayout();
@@ -479,6 +480,12 @@ namespace LeagueHelper
             this.txt_version.Size = new System.Drawing.Size(0, 15);
             this.txt_version.TabIndex = 4;
             // 
+            // notifyIcon1
+            // 
+            this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
+            this.notifyIcon1.Text = "英雄聯盟小助手";
+            this.notifyIcon1.Click += new System.EventHandler(this.notifyIcon1_Click);
+            // 
             // MainApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -495,7 +502,9 @@ namespace LeagueHelper
             this.MaximizeBox = false;
             this.Name = "MainApp";
             this.Text = "英雄聯盟小助手 by Jack";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainApp_FormClosing);
             this.Load += new System.EventHandler(this.MainApp_Load);
+            this.Resize += new System.EventHandler(this.MainApp_Resize);
             this.tabControl1.ResumeLayout(false);
             this.tabInfo.ResumeLayout(false);
             this.tabInfo.PerformLayout();
@@ -556,6 +565,7 @@ namespace LeagueHelper
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.RichTextBox txt_changelog;
         private System.Windows.Forms.Button btn_CheckUpdate;
+        private System.Windows.Forms.NotifyIcon notifyIcon1;
     }
 }
 
