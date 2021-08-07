@@ -110,7 +110,7 @@ namespace LeagueHelper
                 if (response.StatusCode != System.Net.HttpStatusCode.OK)
                     return false;
 
-                String jsonResult = await httpClient.GetStringAsync(await response.Content.ReadAsStringAsync());
+                String jsonResult = await response.Content.ReadAsStringAsync();
                 const String foundMatchString = "InProgress";
                 dynamic obj = JsonConvert.DeserializeObject(jsonResult);
                 if (obj.state == foundMatchString)
@@ -140,7 +140,7 @@ namespace LeagueHelper
                 for (int i = 0; i < count; i++)
                 {
                     String id = avaiableChampObj[i].id;
-                    String fullname = $"{avaiableChampObj[i].title} {avaiableChampObj[i].name}";
+                    String fullname = /* avaiableChampObj[i].title + ' ' + */ avaiableChampObj[i].name;
                     dict.Add(id, fullname);
                 }
                 Summoner.AvailableChampionsNameIDPair = dict;
@@ -214,8 +214,7 @@ namespace LeagueHelper
                     if (response.StatusCode != System.Net.HttpStatusCode.OK)
                         i--;
                 }
-            } catch { Debug.WriteLine("Some Error???"); return false; }
-            Debug.WriteLine("YOU PASS ALL THINGS!!!");
+            } catch { return false; }
             return true;
         }
 

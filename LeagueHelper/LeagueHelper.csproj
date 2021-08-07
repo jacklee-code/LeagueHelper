@@ -16,6 +16,9 @@
     <Product>英雄聯盟小助手</Product>
     <PackageId>英雄聯盟小助手</PackageId>
     <AssemblyName>英雄聯盟小助手</AssemblyName>
+    <Version>1.0.0</Version>
+    <FileVersion>1.0.0.0</FileVersion>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>

@@ -3,6 +3,8 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace LeagueHelper
 {
@@ -13,18 +15,23 @@ namespace LeagueHelper
         private String statusFail = "請先啟動英雄聯盟客戶端";
         private String statusSuccess = "已啟動";
         private bool globalStatus = false;
+        private Updater updater;
 
         private String[] laneNames = { "top", "mid", "ad", "jg", "sup" };
 
         public MainApp()
         {
             InitializeComponent();
+            updater = new Updater();
         }
 
-        private void MainApp_Load(object sender, EventArgs e)
+        private async void MainApp_Load(object sender, EventArgs e)
         {
+            txt_version.Text = "目前版本：" + Application.ProductVersion;
             //Initialize Stuffs
             leagueExplorer = new LeagueExplorer();
+            CheckUpdate(false);
+            WriteChangelogInfo();
         }
 
         private void tabControl1_DrawItem(object sender, DrawItemEventArgs e)
@@ -110,7 +117,7 @@ namespace LeagueHelper
 
         private async void client_OnStart()
         {
-            await refreshAllSummonerData();
+            await RefreshAllSummonerData();
 
             txt_processStatus.Text = statusSuccess;
             txt_processStatus.ForeColor = Color.Green;
@@ -122,7 +129,7 @@ namespace LeagueHelper
             toggle_autoPickLane.Enabled = true;
 
             //Show Avaiable Champions
-            await refreshAvaiableChampionList();
+            await RefreshAvaiableChampionList();
 
             //Start timers
             timer_requestCycle.Start();
@@ -133,13 +140,60 @@ namespace LeagueHelper
         private async void btn_refresh_Click(object sender, EventArgs e)
         {
             timer_requestCycle.Stop();
-            await refreshAllSummonerData();
-            await refreshAvaiableChampionList();
+            await RefreshAllSummonerData();
+            await RefreshAvaiableChampionList();
             timer_requestCycle.Start();
         }
 
+        private void OpenUrl(string url)
+        {
+            try
+            {
+                Process.Start(url);
+            }
+            catch
+            {
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    url = url.Replace("&", "^&");
+                    Process.Start(new ProcessStartInfo("cmd", $"/c start {url}") { CreateNoWindow = true });
+                }
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                {
+                    Process.Start("xdg-open", url);
+                }
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                {
+                    Process.Start("open", url);
+                }
+                else
+                {
+                    throw;
+                }
+            }
+        }
+
+        public async void CheckUpdate(bool showMsgIfLatestVersion = true)
+        {
+            Version version = await updater.CheckUpdate(Application.ProductVersion);
+            if (version is null)
+            {
+                if (showMsgIfLatestVersion)
+                    MessageBox.Show("你目前已經是最新版本。");
+            }
+            else
+            {
+                if (MessageBox.Show($"最新版本：{version.versionNumber}\n更新日期：{version.date}\n\n累積新增功能：\n{version.changelog}\n是否要更新到最新版本？"
+                    , $"已找到新版本", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                {
+                    OpenUrl(version.url);
+                }
+            }
+                
+        }
+
         //cycle + refesh button
-        private async Task refreshAllSummonerData()
+        private async Task RefreshAllSummonerData()
         {
             leagueExplorer.initializePreloadData();
             bool success = await leagueExplorer.refreshSummonerBasicDetail();
@@ -177,17 +231,19 @@ namespace LeagueHelper
                 }
             }
 
-            //DEBUG::
+#if DEBUG
+            txt_debug1.Visible = true;
+            txt_debug2.Visible = true;
             txt_debug1.Text = leagueExplorer.urlRoot;
             txt_debug2.Text = "Authorization: Basic " + leagueExplorer.password;
-            //DEBUG END ::
+#endif
         }
 
 
         private async void timer_requestCycle_Tick(object sender, EventArgs e)
         {
             timer_requestCycle.Stop();
-            await refreshAllSummonerData();
+            await RefreshAllSummonerData();
             timer_requestCycle.Start();
         }
 
@@ -271,7 +327,7 @@ namespace LeagueHelper
             }
         }
 
-        private async Task refreshAvaiableChampionList()
+        private async Task RefreshAvaiableChampionList()
         {
             try
             {
@@ -288,17 +344,36 @@ namespace LeagueHelper
 
         private async void btn_refreshAvaiableChamp_Click(object sender, EventArgs e)
         {
-            await refreshAvaiableChampionList();
+            await RefreshAvaiableChampionList();
         }
 
         private async void timer_monitorStatus_Tick(object sender, EventArgs e)
         {
             timer_monitorStatus.Stop();
-            await refreshAllSummonerData();
+            await RefreshAllSummonerData();
             if (leagueExplorer.Summoner.GameStatus != Summoner.GAME_STATUS.SELECTING_CHAMP)
                 timer_autoPickLane.Start();
             else
                 timer_monitorStatus.Start();
+        }
+
+        private async void WriteChangelogInfo()
+        {
+            List<Version> versions = await updater.GetVersions();
+            if (versions.Count == 0)
+                return;
+
+            txt_changelog.Text = "";
+            for (int i = versions.Count - 1; i >= 0; i--)
+            {
+                txt_changelog.Text += $"版本：{versions[i].versionNumber}\n更新日期：{versions[i].date}\n新增內容：\n{versions[i].changelog}\n\n";
+            }
+        }
+
+        private void btn_CheckUpdate_Click(object sender, EventArgs e)
+        {
+            CheckUpdate();
+            WriteChangelogInfo();
         }
     }
 }

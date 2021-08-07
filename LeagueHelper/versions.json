@@ -1,0 +1,14 @@
+﻿[
+  {
+    "versionNumber": "1.0.0",
+    "changelog": "- 最初版本",
+    "date": "2021年8月6日",
+    "url": "https://drive.google.com/file/d/1gpc8WbPsiDt6aIZTF89I2pm3lsiFDdiH/view?usp=sharing"
+  },
+  {
+    "versionNumber": "1.1.0",
+    "changelog": "- 新增檢查更新功能\n- 顯示更新日誌 \n- 新增保存設定功能",
+    "date": "2021年8月7日",
+    "url": "http://google.com"
+  }
+]

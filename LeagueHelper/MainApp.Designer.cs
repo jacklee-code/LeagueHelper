@@ -56,6 +56,11 @@ namespace LeagueHelper
             this.listbox_selectChamp = new System.Windows.Forms.ComboBox();
             this.toggle_autoPickChamp = new System.Windows.Forms.CheckBox();
             this.toggle_autoAccept = new System.Windows.Forms.CheckBox();
+            this.tabUpdate = new System.Windows.Forms.TabPage();
+            this.txt_changelog = new System.Windows.Forms.RichTextBox();
+            this.btn_CheckUpdate = new System.Windows.Forms.Button();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.txt_processStatus = new System.Windows.Forms.Label();
             this.timer_checkProccess = new System.Windows.Forms.Timer(this.components);
             this.btn_refresh = new System.Windows.Forms.Button();
@@ -65,9 +70,11 @@ namespace LeagueHelper
             this.timer_autoPickChamp = new System.Windows.Forms.Timer(this.components);
             this.timer_autoPickLane = new System.Windows.Forms.Timer(this.components);
             this.timer_monitorStatus = new System.Windows.Forms.Timer(this.components);
+            this.txt_version = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabInfo.SuspendLayout();
             this.tabBasic.SuspendLayout();
+            this.tabUpdate.SuspendLayout();
             this.SuspendLayout();
             // 
             // label0
@@ -89,10 +96,11 @@ namespace LeagueHelper
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabInfo);
             this.tabControl1.Controls.Add(this.tabBasic);
+            this.tabControl1.Controls.Add(this.tabUpdate);
             this.tabControl1.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
             this.tabControl1.Font = new System.Drawing.Font("Microsoft JhengHei UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.tabControl1.ItemSize = new System.Drawing.Size(25, 130);
-            this.tabControl1.Location = new System.Drawing.Point(12, 92);
+            this.tabControl1.Location = new System.Drawing.Point(15, 79);
             this.tabControl1.Margin = new System.Windows.Forms.Padding(0);
             this.tabControl1.Multiline = true;
             this.tabControl1.Name = "tabControl1";
@@ -117,7 +125,6 @@ namespace LeagueHelper
             this.tabInfo.Controls.Add(this.label1);
             this.tabInfo.Location = new System.Drawing.Point(134, 4);
             this.tabInfo.Name = "tabInfo";
-            this.tabInfo.Padding = new System.Windows.Forms.Padding(3);
             this.tabInfo.Size = new System.Drawing.Size(781, 469);
             this.tabInfo.TabIndex = 0;
             this.tabInfo.Text = "個人資料";
@@ -129,6 +136,7 @@ namespace LeagueHelper
             this.txt_debug2.Name = "txt_debug2";
             this.txt_debug2.Size = new System.Drawing.Size(454, 38);
             this.txt_debug2.TabIndex = 9;
+            this.txt_debug2.Visible = false;
             // 
             // txt_debug1
             // 
@@ -136,22 +144,22 @@ namespace LeagueHelper
             this.txt_debug1.Name = "txt_debug1";
             this.txt_debug1.Size = new System.Drawing.Size(293, 38);
             this.txt_debug1.TabIndex = 9;
+            this.txt_debug1.Visible = false;
             // 
             // txt_gameStatus
             // 
             this.txt_gameStatus.AutoSize = true;
             this.txt_gameStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txt_gameStatus.Location = new System.Drawing.Point(136, 94);
+            this.txt_gameStatus.Location = new System.Drawing.Point(133, 91);
             this.txt_gameStatus.Name = "txt_gameStatus";
-            this.txt_gameStatus.Size = new System.Drawing.Size(57, 26);
+            this.txt_gameStatus.Size = new System.Drawing.Size(0, 26);
             this.txt_gameStatus.TabIndex = 8;
-            this.txt_gameStatus.Text = "AAA";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label5.Location = new System.Drawing.Point(70, 94);
+            this.label5.Location = new System.Drawing.Point(67, 91);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(84, 26);
             this.label5.TabIndex = 7;
@@ -161,27 +169,25 @@ namespace LeagueHelper
             // 
             this.txt_gameRegion.AutoSize = true;
             this.txt_gameRegion.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txt_gameRegion.Location = new System.Drawing.Point(482, 55);
+            this.txt_gameRegion.Location = new System.Drawing.Point(479, 52);
             this.txt_gameRegion.Name = "txt_gameRegion";
-            this.txt_gameRegion.Size = new System.Drawing.Size(57, 26);
+            this.txt_gameRegion.Size = new System.Drawing.Size(0, 26);
             this.txt_gameRegion.TabIndex = 6;
-            this.txt_gameRegion.Text = "AAA";
             // 
             // txt_summonerLevel
             // 
             this.txt_summonerLevel.AutoSize = true;
             this.txt_summonerLevel.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txt_summonerLevel.Location = new System.Drawing.Point(482, 15);
+            this.txt_summonerLevel.Location = new System.Drawing.Point(479, 12);
             this.txt_summonerLevel.Name = "txt_summonerLevel";
-            this.txt_summonerLevel.Size = new System.Drawing.Size(57, 26);
+            this.txt_summonerLevel.Size = new System.Drawing.Size(0, 26);
             this.txt_summonerLevel.TabIndex = 6;
-            this.txt_summonerLevel.Text = "AAA";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label4.Location = new System.Drawing.Point(413, 55);
+            this.label4.Location = new System.Drawing.Point(410, 52);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(84, 26);
             this.label4.TabIndex = 5;
@@ -191,7 +197,7 @@ namespace LeagueHelper
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label3.Location = new System.Drawing.Point(413, 15);
+            this.label3.Location = new System.Drawing.Point(410, 12);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(84, 26);
             this.label3.TabIndex = 4;
@@ -201,17 +207,16 @@ namespace LeagueHelper
             // 
             this.txt_statusMessage.AutoSize = true;
             this.txt_statusMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txt_statusMessage.Location = new System.Drawing.Point(136, 55);
+            this.txt_statusMessage.Location = new System.Drawing.Point(133, 52);
             this.txt_statusMessage.Name = "txt_statusMessage";
-            this.txt_statusMessage.Size = new System.Drawing.Size(57, 26);
+            this.txt_statusMessage.Size = new System.Drawing.Size(0, 26);
             this.txt_statusMessage.TabIndex = 3;
-            this.txt_statusMessage.Text = "AAA";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label2.Location = new System.Drawing.Point(26, 55);
+            this.label2.Location = new System.Drawing.Point(23, 52);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(128, 26);
             this.label2.TabIndex = 2;
@@ -221,17 +226,16 @@ namespace LeagueHelper
             // 
             this.txt_summonerName.AutoSize = true;
             this.txt_summonerName.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txt_summonerName.Location = new System.Drawing.Point(136, 15);
+            this.txt_summonerName.Location = new System.Drawing.Point(133, 12);
             this.txt_summonerName.Name = "txt_summonerName";
-            this.txt_summonerName.Size = new System.Drawing.Size(57, 26);
+            this.txt_summonerName.Size = new System.Drawing.Size(0, 26);
             this.txt_summonerName.TabIndex = 1;
-            this.txt_summonerName.Text = "AAA";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label1.Location = new System.Drawing.Point(4, 15);
+            this.label1.Location = new System.Drawing.Point(1, 12);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(150, 26);
             this.label1.TabIndex = 0;
@@ -250,7 +254,6 @@ namespace LeagueHelper
             this.tabBasic.Controls.Add(this.toggle_autoAccept);
             this.tabBasic.Location = new System.Drawing.Point(134, 4);
             this.tabBasic.Name = "tabBasic";
-            this.tabBasic.Padding = new System.Windows.Forms.Padding(3);
             this.tabBasic.Size = new System.Drawing.Size(781, 469);
             this.tabBasic.TabIndex = 1;
             this.tabBasic.Text = "基本功能";
@@ -279,7 +282,7 @@ namespace LeagueHelper
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(440, 149);
+            this.label8.Location = new System.Drawing.Point(437, 146);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(157, 30);
             this.label8.TabIndex = 6;
@@ -288,7 +291,7 @@ namespace LeagueHelper
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(319, 149);
+            this.label7.Location = new System.Drawing.Point(316, 146);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(61, 30);
             this.label7.TabIndex = 6;
@@ -315,7 +318,7 @@ namespace LeagueHelper
             // 
             this.toggle_autoPickLane.AutoSize = true;
             this.toggle_autoPickLane.Enabled = false;
-            this.toggle_autoPickLane.Location = new System.Drawing.Point(13, 148);
+            this.toggle_autoPickLane.Location = new System.Drawing.Point(10, 145);
             this.toggle_autoPickLane.Name = "toggle_autoPickLane";
             this.toggle_autoPickLane.Size = new System.Drawing.Size(128, 34);
             this.toggle_autoPickLane.TabIndex = 3;
@@ -335,7 +338,7 @@ namespace LeagueHelper
             // 
             this.toggle_autoPickChamp.AutoSize = true;
             this.toggle_autoPickChamp.Enabled = false;
-            this.toggle_autoPickChamp.Location = new System.Drawing.Point(13, 80);
+            this.toggle_autoPickChamp.Location = new System.Drawing.Point(10, 77);
             this.toggle_autoPickChamp.Name = "toggle_autoPickChamp";
             this.toggle_autoPickChamp.Size = new System.Drawing.Size(152, 34);
             this.toggle_autoPickChamp.TabIndex = 1;
@@ -347,13 +350,69 @@ namespace LeagueHelper
             // 
             this.toggle_autoAccept.AutoSize = true;
             this.toggle_autoAccept.Enabled = false;
-            this.toggle_autoAccept.Location = new System.Drawing.Point(13, 22);
+            this.toggle_autoAccept.Location = new System.Drawing.Point(10, 19);
             this.toggle_autoAccept.Name = "toggle_autoAccept";
             this.toggle_autoAccept.Size = new System.Drawing.Size(176, 34);
             this.toggle_autoAccept.TabIndex = 0;
             this.toggle_autoAccept.Text = "自動接受配對";
             this.toggle_autoAccept.UseVisualStyleBackColor = true;
             this.toggle_autoAccept.CheckedChanged += new System.EventHandler(this.toggle_AutoAccept_CheckedChanged);
+            // 
+            // tabUpdate
+            // 
+            this.tabUpdate.Controls.Add(this.txt_changelog);
+            this.tabUpdate.Controls.Add(this.btn_CheckUpdate);
+            this.tabUpdate.Controls.Add(this.label9);
+            this.tabUpdate.Controls.Add(this.label6);
+            this.tabUpdate.Location = new System.Drawing.Point(134, 4);
+            this.tabUpdate.Name = "tabUpdate";
+            this.tabUpdate.Size = new System.Drawing.Size(781, 469);
+            this.tabUpdate.TabIndex = 2;
+            this.tabUpdate.Text = "更新日誌";
+            this.tabUpdate.UseVisualStyleBackColor = true;
+            // 
+            // txt_changelog
+            // 
+            this.txt_changelog.BackColor = System.Drawing.Color.White;
+            this.txt_changelog.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txt_changelog.Font = new System.Drawing.Font("Microsoft JhengHei UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.txt_changelog.Location = new System.Drawing.Point(14, 58);
+            this.txt_changelog.Name = "txt_changelog";
+            this.txt_changelog.ReadOnly = true;
+            this.txt_changelog.Size = new System.Drawing.Size(749, 394);
+            this.txt_changelog.TabIndex = 6;
+            this.txt_changelog.Text = "";
+            // 
+            // btn_CheckUpdate
+            // 
+            this.btn_CheckUpdate.Font = new System.Drawing.Font("Microsoft JhengHei UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btn_CheckUpdate.Location = new System.Drawing.Point(681, 13);
+            this.btn_CheckUpdate.Name = "btn_CheckUpdate";
+            this.btn_CheckUpdate.Size = new System.Drawing.Size(82, 30);
+            this.btn_CheckUpdate.TabIndex = 5;
+            this.btn_CheckUpdate.Text = "檢查更新";
+            this.btn_CheckUpdate.UseVisualStyleBackColor = true;
+            this.btn_CheckUpdate.Click += new System.EventHandler(this.btn_CheckUpdate_Click);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(684, -73);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(81, 30);
+            this.label9.TabIndex = 4;
+            this.label9.Text = "label9";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft JhengHei UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label6.Location = new System.Drawing.Point(14, 13);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(181, 30);
+            this.label6.TabIndex = 1;
+            this.label6.Text = "更新日誌詳情：";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // txt_processStatus
             // 
@@ -412,12 +471,21 @@ namespace LeagueHelper
             this.timer_monitorStatus.Interval = 1000;
             this.timer_monitorStatus.Tick += new System.EventHandler(this.timer_monitorStatus_Tick);
             // 
+            // txt_version
+            // 
+            this.txt_version.AutoSize = true;
+            this.txt_version.Location = new System.Drawing.Point(830, 561);
+            this.txt_version.Name = "txt_version";
+            this.txt_version.Size = new System.Drawing.Size(0, 15);
+            this.txt_version.TabIndex = 4;
+            // 
             // MainApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(943, 581);
+            this.Controls.Add(this.txt_version);
             this.Controls.Add(this.btn_refresh);
             this.Controls.Add(this.txt_processStatus);
             this.Controls.Add(this.tabControl1);
@@ -433,6 +501,8 @@ namespace LeagueHelper
             this.tabInfo.PerformLayout();
             this.tabBasic.ResumeLayout(false);
             this.tabBasic.PerformLayout();
+            this.tabUpdate.ResumeLayout(false);
+            this.tabUpdate.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -479,6 +549,13 @@ namespace LeagueHelper
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button btn_refreshAvaiableChamp;
         private System.Windows.Forms.Timer timer_monitorStatus;
+        private System.Windows.Forms.TabPage tabUpdate;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label txt_version;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.RichTextBox txt_changelog;
+        private System.Windows.Forms.Button btn_CheckUpdate;
     }
 }
 
