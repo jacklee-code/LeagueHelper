@@ -94,5 +94,17 @@ namespace LeagueHelper.Properties {
                 this["pickLaneFreq"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool autoRunePage {
+            get {
+                return ((bool)(this["autoRunePage"]));
+            }
+            set {
+                this["autoRunePage"] = value;
+            }
+        }
     }
 }

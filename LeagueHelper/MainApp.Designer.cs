@@ -47,6 +47,7 @@ namespace LeagueHelper
             this.txt_summonerName = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tabBasic = new System.Windows.Forms.TabPage();
+            this.toggle_autoPickRunes = new System.Windows.Forms.CheckBox();
             this.btn_refreshAvaiableChamp = new System.Windows.Forms.Button();
             this.txt_pickLaneFrequceny = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -72,6 +73,7 @@ namespace LeagueHelper
             this.timer_monitorStatus = new System.Windows.Forms.Timer(this.components);
             this.txt_version = new System.Windows.Forms.Label();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.timer_autoRunes = new System.Windows.Forms.Timer(this.components);
             this.tabControl1.SuspendLayout();
             this.tabInfo.SuspendLayout();
             this.tabBasic.SuspendLayout();
@@ -244,6 +246,7 @@ namespace LeagueHelper
             // 
             // tabBasic
             // 
+            this.tabBasic.Controls.Add(this.toggle_autoPickRunes);
             this.tabBasic.Controls.Add(this.btn_refreshAvaiableChamp);
             this.tabBasic.Controls.Add(this.txt_pickLaneFrequceny);
             this.tabBasic.Controls.Add(this.label8);
@@ -260,9 +263,21 @@ namespace LeagueHelper
             this.tabBasic.Text = "基本功能";
             this.tabBasic.UseVisualStyleBackColor = true;
             // 
+            // toggle_autoPickRunes
+            // 
+            this.toggle_autoPickRunes.AutoSize = true;
+            this.toggle_autoPickRunes.Enabled = false;
+            this.toggle_autoPickRunes.Location = new System.Drawing.Point(10, 271);
+            this.toggle_autoPickRunes.Name = "toggle_autoPickRunes";
+            this.toggle_autoPickRunes.Size = new System.Drawing.Size(310, 34);
+            this.toggle_autoPickRunes.TabIndex = 11;
+            this.toggle_autoPickRunes.Text = "自動建立符文(取自OPGG)";
+            this.toggle_autoPickRunes.UseVisualStyleBackColor = true;
+            this.toggle_autoPickRunes.CheckedChanged += new System.EventHandler(this.toggle_autoPickRunes_CheckedChanged);
+            // 
             // btn_refreshAvaiableChamp
             // 
-            this.btn_refreshAvaiableChamp.Location = new System.Drawing.Point(560, 78);
+            this.btn_refreshAvaiableChamp.Location = new System.Drawing.Point(583, 78);
             this.btn_refreshAvaiableChamp.Name = "btn_refreshAvaiableChamp";
             this.btn_refreshAvaiableChamp.Size = new System.Drawing.Size(168, 38);
             this.btn_refreshAvaiableChamp.TabIndex = 8;
@@ -272,7 +287,7 @@ namespace LeagueHelper
             // 
             // txt_pickLaneFrequceny
             // 
-            this.txt_pickLaneFrequceny.Location = new System.Drawing.Point(377, 145);
+            this.txt_pickLaneFrequceny.Location = new System.Drawing.Point(425, 145);
             this.txt_pickLaneFrequceny.Name = "txt_pickLaneFrequceny";
             this.txt_pickLaneFrequceny.Size = new System.Drawing.Size(61, 38);
             this.txt_pickLaneFrequceny.TabIndex = 7;
@@ -283,7 +298,7 @@ namespace LeagueHelper
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(437, 146);
+            this.label8.Location = new System.Drawing.Point(485, 146);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(157, 30);
             this.label8.TabIndex = 6;
@@ -292,7 +307,7 @@ namespace LeagueHelper
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(316, 146);
+            this.label7.Location = new System.Drawing.Point(364, 146);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(61, 30);
             this.label7.TabIndex = 6;
@@ -309,7 +324,7 @@ namespace LeagueHelper
             "下路",
             "打野",
             "輔助"});
-            this.checkList_selectLane.Location = new System.Drawing.Point(147, 148);
+            this.checkList_selectLane.Location = new System.Drawing.Point(180, 145);
             this.checkList_selectLane.MultiColumn = true;
             this.checkList_selectLane.Name = "checkList_selectLane";
             this.checkList_selectLane.Size = new System.Drawing.Size(166, 103);
@@ -330,7 +345,7 @@ namespace LeagueHelper
             // listbox_selectChamp
             // 
             this.listbox_selectChamp.FormattingEnabled = true;
-            this.listbox_selectChamp.Location = new System.Drawing.Point(183, 78);
+            this.listbox_selectChamp.Location = new System.Drawing.Point(180, 80);
             this.listbox_selectChamp.Name = "listbox_selectChamp";
             this.listbox_selectChamp.Size = new System.Drawing.Size(370, 38);
             this.listbox_selectChamp.TabIndex = 2;
@@ -339,11 +354,11 @@ namespace LeagueHelper
             // 
             this.toggle_autoPickChamp.AutoSize = true;
             this.toggle_autoPickChamp.Enabled = false;
-            this.toggle_autoPickChamp.Location = new System.Drawing.Point(10, 77);
+            this.toggle_autoPickChamp.Location = new System.Drawing.Point(10, 80);
             this.toggle_autoPickChamp.Name = "toggle_autoPickChamp";
             this.toggle_autoPickChamp.Size = new System.Drawing.Size(152, 34);
             this.toggle_autoPickChamp.TabIndex = 1;
-            this.toggle_autoPickChamp.Text = "自動搶英搶";
+            this.toggle_autoPickChamp.Text = "自動選英雄";
             this.toggle_autoPickChamp.UseVisualStyleBackColor = true;
             this.toggle_autoPickChamp.CheckedChanged += new System.EventHandler(this.toggle_autopick_CheckedChanged);
             // 
@@ -486,6 +501,11 @@ namespace LeagueHelper
             this.notifyIcon1.Text = "英雄聯盟小助手";
             this.notifyIcon1.Click += new System.EventHandler(this.notifyIcon1_Click);
             // 
+            // timer_autoRunes
+            // 
+            this.timer_autoRunes.Interval = 1800;
+            this.timer_autoRunes.Tick += new System.EventHandler(this.timer_autoRunes_Tick);
+            // 
             // MainApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -566,6 +586,10 @@ namespace LeagueHelper
         private System.Windows.Forms.RichTextBox txt_changelog;
         private System.Windows.Forms.Button btn_CheckUpdate;
         private System.Windows.Forms.NotifyIcon notifyIcon1;
+        private System.Windows.Forms.CheckBox toggle_autoPickRunes;
+        private System.Windows.Forms.CheckBox to;
+        private System.Windows.Forms.CheckBox togg;
+        private System.Windows.Forms.Timer timer_autoRunes;
     }
 }
 

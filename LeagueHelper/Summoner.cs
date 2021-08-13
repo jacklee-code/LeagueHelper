@@ -15,8 +15,9 @@ namespace LeagueHelper
             public const String QUEUING = "inQueue";
             public const String SELECTING_CHAMP = "championSelect";
             public const String CREATE_CUSTOM = "hosting_Custom";
-            public const String CREATE_NORMAL = "hosting_Normal";
+            public const String CREATE_NORMAL = "hosting_NORMAL";
             public const String CREATE_ARAM = "hosting_ARAM_UNRANKED_5x5";
+            public const String CREATE_PRACTICE = "hosting_PRACTICETOOL";
         }
 
         private const String REGION_TW = "TW";
@@ -36,6 +37,8 @@ namespace LeagueHelper
                     _region = value;
             }
         }
+
+        public String LastSelectedChampion { get; set; }
 
         public String GameStatus { get; set; }
 

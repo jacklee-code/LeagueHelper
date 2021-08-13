@@ -12,10 +12,17 @@ namespace LeagueHelper
 {
     public class LeagueExplorer
     {
+#if DEBUG
+        public String password = "";
+#else
+        private String password = "";
+#endif
+
+
         private HttpClient httpClient;
 
         public String urlRoot = "";
-        public String password = ""; //Only set as public when debug mode is on
+        
         public Summoner Summoner = new Summoner();
 
         public LockFile lockFile;
@@ -42,7 +49,7 @@ namespace LeagueHelper
             httpClient = new HttpClient(handler);
         }
 
-        public void initializePreloadData()
+        public void InitializePreloadData()
         {
             try
             {
@@ -60,7 +67,7 @@ namespace LeagueHelper
         }
 
 
-        private async Task<bool> updateGameStatus()
+        private async Task<bool> UpdateGameStatus()
         {
             try
             {
@@ -77,9 +84,45 @@ namespace LeagueHelper
             
         }
 
+        private async Task<bool> CreateRunePage(RunePage runePage)
+        {
+            try
+            {
+                await DeleteRepeatedRunePages(runePage.name);
+                HttpContent content = new StringContent(JsonConvert.SerializeObject(runePage), Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await httpClient.PostAsync(urlRoot + "/lol-perks/v1/pages", content);
+                if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                    return false;
+                return true;
+            }
+            catch { return false; }
+        }
+
+        private async Task<bool> DeleteRepeatedRunePages(String pageName = "英雄聯盟小助手")
+        {
+            try
+            {
+                HttpResponseMessage response = await httpClient.GetAsync(urlRoot + "/lol-perks/v1/pages");
+                if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                    return false;
+
+
+                List<RunePage> runePages = JsonConvert.DeserializeObject<List<RunePage>>(await response.Content.ReadAsStringAsync());
+            
+                foreach (RunePage rune in runePages)
+                {
+                    if (rune.name == pageName)
+                        await httpClient.DeleteAsync(urlRoot + "/lol-perks/v1/pages/" + rune.id);
+                        
+                }
+                return true;
+            }
+            catch (Exception ex) { Debug.WriteLine(ex.ToString()); return false; }
+        }
+
         //.............. public functions of different misc feature ...................
 
-        public async Task<bool> refreshSummonerBasicDetail()
+        public async Task<bool> RefreshSummonerBasicDetail()
         {
             try
             {
@@ -102,7 +145,7 @@ namespace LeagueHelper
             return true;
         }
 
-        public async Task<bool> isMatchFound()
+        public async Task<bool> IsMatchFound()
         {
             try
             {
@@ -120,7 +163,85 @@ namespace LeagueHelper
             return false;
         }
 
-        public async Task acceptMatch()
+        public async Task<string> GetCurrentSelectedChampionName()
+        {
+            try
+            {
+                int championId = -1;
+                HttpResponseMessage response = await httpClient.GetAsync(urlRoot + "/lol-champ-select/v1/session");
+                if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                    return "";
+
+                dynamic obj = JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync());
+                int count = obj.myTeam.Count;
+                for (int i = 0; i < count; i++)
+                {
+                    if (obj.myTeam[i].summonerId == Summoner.SummonerID)
+                    {
+                        championId = obj.myTeam[i].championId;
+                        break;
+                    }
+
+                }
+                if (championId == -1)
+                    return "";
+
+                response = await httpClient.GetAsync(urlRoot + $"/lol-champions/v1/inventories/{Summoner.SummonerID}/champions/{championId}");
+                if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                    return "";
+
+                obj = JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync());
+                Summoner.LastSelectedChampion = obj.alias;
+
+                return Summoner.LastSelectedChampion; ;
+            }
+            catch { return ""; }
+        }
+
+        public async Task<bool> CreateOPGGRunePage(String region = "www")
+        {
+            String lastChamp = Summoner.LastSelectedChampion;
+            String currChamp = await GetCurrentSelectedChampionName();
+            if (currChamp.Length == 0 || lastChamp == currChamp)
+                return false;
+                
+
+            //Do...
+            String opggUrl = "https://" + region + ".op.gg/champion/" + currChamp;
+            HttpResponseMessage response = await httpClient.GetAsync(opggUrl);
+            if (!response.IsSuccessStatusCode)
+                return false;
+
+            try
+            {
+                RunePage runepage = new RunePage();
+                String htmlText = await response.Content.ReadAsStringAsync();
+                String perk_page_wrap = htmlText.Split("perk-page-wrap")[1];
+                String primary_perk = perk_page_wrap.Split("perk-page__item--mark")[1].Split("perkStyle/")[1].Split(".png")[0];
+                String sub_perk = perk_page_wrap.Split("perk-page__item--mark")[2].Split("perkStyle/")[1].Split(".png")[0];
+                runepage.primaryStyleId = int.Parse(primary_perk);
+                runepage.subStyleId = int.Parse(sub_perk);
+                String[] perkids2 = perk_page_wrap.Split("perk-page__item--active");
+                for (int i = 1; i < perkids2.Length; i++)
+                {
+                    String perkid = perkids2[i].Split("perk/")[1].Split(".png")[0];
+                    runepage.selectedPerkIds.Add(int.Parse(perkid));
+                }
+
+                String[] fragments = perk_page_wrap.Split("fragment__row");
+                for (int i = 1; i < fragments.Length; i++)
+                {
+                    String[] tmp = fragments[i].Split("active")[0].Split("perkShard/");
+                    int shardid = int.Parse(tmp[tmp.Length - 1].Split(".png")[0]);
+                    runepage.selectedPerkIds.Add(shardid);
+                }
+                return await CreateRunePage(runepage);
+            }
+            catch { return false; }
+        }
+
+
+        public async Task AcceptMatch()
         {
             try { var response = await httpClient.PostAsync(urlRoot + "/lol-matchmaking/v1/ready-check/accept", null); }             
             catch { }
@@ -149,13 +270,18 @@ namespace LeagueHelper
             return true;
         }
 
-        public async Task pickChampion(String championId)
+        private async Task<int> GetActionID()
         {
+            int cellId = 0;
+            int actionId = -1;
             try
             {
-                dynamic objGameRoom = JsonConvert.DeserializeObject(await httpClient.GetStringAsync(urlRoot + "/lol-champ-select/v1/session"));
-                int count = objGameRoom.myTeam.Count;
-                int cellId = 0, actionId = 0;
+                HttpResponseMessage response = await httpClient.GetAsync(urlRoot + "/lol-champ-select/v1/session");
+                if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                    return -1;
+
+                dynamic objGameRoom = JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync());
+                int count = objGameRoom.myTeam.Count;                
                 for (int i = 0; i < count; i++)
                     if (objGameRoom.myTeam[i].summonerId == Summoner.SummonerID)
                     {
@@ -167,19 +293,33 @@ namespace LeagueHelper
                 for (int i = 0; i < count; i++)
                     if (objGameRoom.actions[0][i].actorCellId == cellId)
                         actionId = objGameRoom.actions[0][i].id;
+                return actionId;
+            }
+            catch { return actionId; }
+        }
+        public async Task PickChampion(String championId, bool locked = false, bool ban = false)
+        {
+            try
+            {
+                int actionId = await GetActionID();
+                if (actionId == -1)
+                    return;
 
-                String jsonChampContent = $"{{\"championId\":\"{championId}\"}}";
+
+                String jsonChampContent = $"{{\"championId\":\"{championId}\", \"completed\":{locked.ToString().ToLower()}, " +
+                                          $"\"type\":\"{(ban?"ban":"pick")}\"}}";
                 HttpContent content = new StringContent(jsonChampContent, Encoding.UTF8, "application/json");
-                await httpClient.PatchAsync(urlRoot + $"/lol-champ-select/v1/session/actions/{actionId}", content);
+                HttpResponseMessage responseMessage = await httpClient.PatchAsync(urlRoot + $"/lol-champ-select/v1/session/actions/{actionId}", content);
+                
             }
             catch { }
         }
 
-        public async Task<bool> sendMessageInSelectionMenu(String message, int frequency = 1, bool isSystemMessage = false)
+        public async Task<bool> SendMessageInSelectionMenu(String message, int frequency = 1, bool isSystemMessage = false)
         {
             try
             {              
-                bool success = await updateGameStatus();
+                bool success = await UpdateGameStatus();
                 if (!success)
                     return false;
                     

@@ -1,0 +1,88 @@
+﻿//Perks Pages
+//https://127.0.0.1:58615/lol-perks/v1/pages
+
+[{
+    "autoModifiedSelections": [],
+    "current": true,
+    "id": 1237320914,
+    "isActive": false,
+    "isDeletable": true,
+    "isEditable": true,
+    "isValid": true,
+    "lastModified": 1628761934754,
+    "name": "新符文頁：0",
+    "order": 0,
+    "primaryStyleId": 8000,
+    "selectedPerkIds": [8010, 9111, 9104, 8299, 8473, 8453, 5005, 5008, 5001],
+    "subStyleId": 8400
+}, {
+    "autoModifiedSelections": [],
+    "current": false,
+    "id": 1688388689,
+    "isActive": false,
+    "isDeletable": true,
+    "isEditable": true,
+    "isValid": true,
+    "lastModified": 1628761973580,
+    "name": "新符文頁：1",
+    "order": 1,
+    "primaryStyleId": 8300,
+    "selectedPerkIds": [8351, 8306, 8321, 8347, 9101, 8014, 5008, 5008, 5001],
+    "subStyleId": 8000
+}, {
+    "autoModifiedSelections": [],
+    "current": false,
+    "id": 53,
+    "isActive": false,
+    "isDeletable": false,
+    "isEditable": false,
+    "isValid": true,
+    "lastModified": 0,
+    "name": "巫術：災厄",
+    "order": 2147483639,
+    "primaryStyleId": 8200,
+    "selectedPerkIds": [8229, 8226, 8210, 8236, 8138, 8105, 5008, 5008, 5001],
+    "subStyleId": 8100
+}, {
+    "autoModifiedSelections": [],
+    "current": false,
+    "id": 52,
+    "isActive": false,
+    "isDeletable": false,
+    "isEditable": false,
+    "isValid": true,
+    "lastModified": 0,
+    "name": "精準：完美主義",
+    "order": 2147483640,
+    "primaryStyleId": 8000,
+    "selectedPerkIds": [8005, 9111, 9104, 8014, 8233, 8236, 5005, 5008, 5001],
+    "subStyleId": 8200
+}, {
+    "autoModifiedSelections": [],
+    "current": false,
+    "id": 51,
+    "isActive": false,
+    "isDeletable": false,
+    "isEditable": false,
+    "isValid": true,
+    "lastModified": 0,
+    "name": "征服：行刑者",
+    "order": 2147483641,
+    "primaryStyleId": 8100,
+    "selectedPerkIds": [8112, 8139, 8138, 8135, 9111, 8014, 5005, 5008, 5002],
+    "subStyleId": 8000
+}, {
+    "autoModifiedSelections": [],
+    "current": false,
+    "id": 50,
+    "isActive": false,
+    "isDeletable": false,
+    "isEditable": false,
+    "isValid": true,
+    "lastModified": 0,
+    "name": "意志：巨像",
+    "order": 2147483642,
+    "primaryStyleId": 8400,
+    "selectedPerkIds": [8437, 8446, 8444, 8451, 8224, 8237, 5008, 5002, 5001],
+    "subStyleId": 8200
+}]

@@ -10,5 +10,11 @@
     "changelog": "- 新增檢查更新功能\n- 顯示更新日誌 \n- 新增自動保存設定功能(直接關閉程式即可)\n- 按下最小化按鈕可將程式縮小到右下角",
     "date": "2021年8月7日",
     "url": "https://drive.google.com/file/d/1qEx2_cNzVOjauMrUp7iZd50JP8Bk-x01/view?usp=sharing"
+  },
+  {
+    "versionNumber": "1.2.0",
+    "changelog": "- 啟動前會檢查小助手是否已開啟，防止開多。\n- 新增自動根據目前英雄建立符文功能(取自韓服OP.GG)",
+    "date": "2021年8月13日",
+    "url": "https://drive.google.com/file/d/1PpigiPDxmbgOgqvbyyLgSusxZBI_aWyL/view?usp=sharing"
   }
 ]

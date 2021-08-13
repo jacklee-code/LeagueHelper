@@ -1,10 +1,11 @@
-//https://127.0.0.1:55193/lol-champ-select/v1/session/actions/{actions[id]}
+﻿//https://127.0.0.1:55193/lol-champ-select/v1/session/actions/{actions[id]}
 //How to find action id in /lol-champ-select/v1/session4
 //1. if summonerId = your id, get cellId;
 //2. find the action with the same cellId and get id
-//Champions Select
+//Ban Champion
+
 {
 	"championId":"{champion id}",
-	"completed": {true = locked, false = pick only},
-	"type": "pick"
+	"completed": true,
+	"type": "ban"
 }

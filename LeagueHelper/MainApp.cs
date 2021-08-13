@@ -105,6 +105,7 @@ namespace LeagueHelper
             listbox_selectChamp.DataSource = null;
             listbox_selectChamp.Items.Clear();
             toggle_autoPickLane.Enabled = false;
+            toggle_autoPickRunes.Enabled = false;
 
             //Clean Data
             txt_summonerName.Text = "";
@@ -123,10 +124,11 @@ namespace LeagueHelper
             txt_processStatus.ForeColor = Color.Green;
             btn_refresh.Visible = true;
 
-            //Basic Function
+            //Enable Basic Function
             toggle_autoAccept.Enabled = true;
             toggle_autoPickChamp.Enabled = true;
             toggle_autoPickLane.Enabled = true;
+            toggle_autoPickRunes.Enabled = true;
 
             //Show Avaiable Champions
             await RefreshAvaiableChampionList();
@@ -141,6 +143,7 @@ namespace LeagueHelper
             toggle_autoPickLane.Checked = Properties.Settings.Default.autoPickLane;
             toggle_autoPickChamp.Checked = Properties.Settings.Default.autoPickChamp;
             txt_pickLaneFrequceny.Text = Properties.Settings.Default.pickLaneFreq.ToString();
+            toggle_autoPickRunes.Checked = Properties.Settings.Default.autoRunePage;
 
             String lanes = Properties.Settings.Default.selectedLanes;
             if (lanes.Length > 0)
@@ -211,8 +214,8 @@ namespace LeagueHelper
         //cycle + refesh button
         private async Task RefreshAllSummonerData()
         {
-            leagueExplorer.initializePreloadData();
-            bool success = await leagueExplorer.refreshSummonerBasicDetail();
+            leagueExplorer.InitializePreloadData();
+            bool success = await leagueExplorer.RefreshSummonerBasicDetail();
 
             if (success)
             {
@@ -240,6 +243,12 @@ namespace LeagueHelper
                         break;
                     case Summoner.GAME_STATUS.CREATE_CUSTOM:
                         txt_gameStatus.Text = "創建自訂遊戲";
+                        break;
+                    case Summoner.GAME_STATUS.SELECTING_CHAMP:
+                        txt_gameStatus.Text = "選擇英雄中";
+                        break;
+                    case Summoner.GAME_STATUS.CREATE_PRACTICE:
+                        txt_gameStatus.Text = "創建練習模式";
                         break;
                     default:
                         txt_gameStatus.Text = leagueExplorer.Summoner.GameStatus;
@@ -274,9 +283,9 @@ namespace LeagueHelper
         private async void timer_autoAccept_Tick(object sender, EventArgs e)
         {
             timer_autoAccept.Stop();
-            bool result = await leagueExplorer.isMatchFound();
+            bool result = await leagueExplorer.IsMatchFound();
             if (result)
-                await leagueExplorer.acceptMatch();
+                await leagueExplorer.AcceptMatch();
             timer_autoAccept.Start();
         }
 
@@ -304,7 +313,7 @@ namespace LeagueHelper
             timer_autoPickChamp.Stop();
             if (listbox_selectChamp.Items.Count > 0)
             {
-                await leagueExplorer.pickChampion(listbox_selectChamp.SelectedValue.ToString());
+                await leagueExplorer.PickChampion(listbox_selectChamp.SelectedValue.ToString());
                 timer_autoPickChamp.Start();
             }
             else
@@ -338,7 +347,7 @@ namespace LeagueHelper
             {
                 fullMessage += $"{laneNames[index]}+";
             }
-            bool finished = await leagueExplorer.sendMessageInSelectionMenu(fullMessage.Remove(fullMessage.Length-1), freq, false);
+            bool finished = await leagueExplorer.SendMessageInSelectionMenu(fullMessage.Remove(fullMessage.Length-1), freq, false);
             if (finished)
                 timer_monitorStatus.Start();
             else
@@ -411,6 +420,7 @@ namespace LeagueHelper
                 Properties.Settings.Default.champId = listbox_selectChamp.SelectedValue.ToString();
             Properties.Settings.Default.autoPickLane = toggle_autoPickLane.Checked;
             Properties.Settings.Default.selectedLanes = "";
+            Properties.Settings.Default.autoRunePage = toggle_autoPickRunes.Checked;
             string temp = "";
             foreach (int index in checkList_selectLane.CheckedIndices)
             {
@@ -438,6 +448,19 @@ namespace LeagueHelper
                 Hide();
                 notifyIcon1.Visible = true;
             }
+        }
+
+        private void toggle_autoPickRunes_CheckedChanged(object sender, EventArgs e)
+        {
+            timer_autoRunes.Enabled = toggle_autoPickRunes.Checked;
+        }
+
+        private async void timer_autoRunes_Tick(object sender, EventArgs e)
+        {
+            timer_autoRunes.Stop();
+            bool result =  await leagueExplorer.CreateOPGGRunePage();
+            Debug.WriteLine("DEBUG ::: " + result);
+            timer_autoRunes.Start();
         }
     }
 }
