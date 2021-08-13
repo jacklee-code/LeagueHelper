@@ -13,7 +13,7 @@
   },
   {
     "versionNumber": "1.2.0",
-    "changelog": "- 啟動前會檢查小助手是否已開啟，防止開多。\n- 新增自動根據目前英雄建立符文功能(取自韓服OP.GG)",
+    "changelog": "- 啟動前會檢查小助手是否已開啟，防止多開。\n- 新增自動根據目前英雄建立符文功能(取自韓服OP.GG)",
     "date": "2021年8月13日",
     "url": "https://drive.google.com/file/d/1PpigiPDxmbgOgqvbyyLgSusxZBI_aWyL/view?usp=sharing"
   }
