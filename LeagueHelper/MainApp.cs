@@ -19,6 +19,18 @@ namespace LeagueHelper
 
         private String[] laneNames = { "top", "mid", "ad", "jg", "sup" };
 
+        private bool pickLaneFlag, pickChampFlag;
+        
+        private void resetFlags()
+        {
+            pickChampFlag = pickLaneFlag = true;
+        }
+
+        private void disableFlags()
+        {
+            pickLaneFlag = pickChampFlag = false;
+        }
+
         public MainApp()
         {
             InitializeComponent();
@@ -92,7 +104,6 @@ namespace LeagueHelper
             timer_autoAccept.Stop();
             timer_autoPickLane.Stop();
             timer_autoPickChamp.Stop();
-            timer_monitorStatus.Stop();
 
 
             txt_processStatus.Text = statusFail;
@@ -105,7 +116,7 @@ namespace LeagueHelper
             listbox_selectChamp.DataSource = null;
             listbox_selectChamp.Items.Clear();
             toggle_autoPickLane.Enabled = false;
-            toggle_autoPickRunes.Enabled = false;
+            toggle_openOPGGUrl.Enabled = false;
 
             //Clean Data
             txt_summonerName.Text = "";
@@ -128,7 +139,7 @@ namespace LeagueHelper
             toggle_autoAccept.Enabled = true;
             toggle_autoPickChamp.Enabled = true;
             toggle_autoPickLane.Enabled = true;
-            toggle_autoPickRunes.Enabled = true;
+            toggle_openOPGGUrl.Enabled = true;
 
             //Show Avaiable Champions
             await RefreshAvaiableChampionList();
@@ -136,14 +147,13 @@ namespace LeagueHelper
             //Start timers
             timer_requestCycle.Start();
             timer_autoAccept.Enabled = toggle_autoAccept.Checked;
-            timer_autoPickLane.Enabled = toggle_autoPickLane.Checked;
 
             //Properties Setting
             toggle_autoAccept.Checked = Properties.Settings.Default.autoAccept;
             toggle_autoPickLane.Checked = Properties.Settings.Default.autoPickLane;
             toggle_autoPickChamp.Checked = Properties.Settings.Default.autoPickChamp;
             txt_pickLaneFrequceny.Text = Properties.Settings.Default.pickLaneFreq.ToString();
-            toggle_autoPickRunes.Checked = Properties.Settings.Default.autoRunePage;
+            toggle_openOPGGUrl.Checked = Properties.Settings.Default.autoOpenOPGG;
 
             String lanes = Properties.Settings.Default.selectedLanes;
             if (lanes.Length > 0)
@@ -154,6 +164,7 @@ namespace LeagueHelper
 
             if (listbox_selectChamp.Items.Count > 0)
                 listbox_selectChamp.SelectedValue = Properties.Settings.Default.champId;
+
         }
 
         private async void btn_refresh_Click(object sender, EventArgs e)
@@ -266,10 +277,31 @@ namespace LeagueHelper
 
 
         private async void timer_requestCycle_Tick(object sender, EventArgs e)
-        {
-            timer_requestCycle.Stop();
+        {     
             await RefreshAllSummonerData();
-            timer_requestCycle.Start();
+            if (leagueExplorer.Summoner.GameStatus == Summoner.GAME_STATUS.SELECTING_CHAMP)
+            {
+                if (toggle_autoPickLane.Checked && pickLaneFlag && checkList_selectLane.CheckedItems.Count > 0)
+                {
+                    pickLaneFlag = false;
+                    timer_autoPickLane.Start();
+                }
+
+                if (toggle_autoPickChamp.Checked && pickChampFlag && listbox_selectChamp.Items.Count > 0 && listbox_selectChamp.SelectedIndex >= 0)
+                {
+                    pickChampFlag = false;
+                    timer_autoPickChamp.Start();
+                }
+
+                if (toggle_openOPGGUrl.Checked)
+                    timer_openUrl.Start();
+            } else
+            {
+                resetFlags();
+                timer_autoPickLane.Stop();
+                timer_autoPickChamp.Stop();
+                timer_openUrl.Stop();
+            }                     
         }
 
         private void toggle_AutoAccept_CheckedChanged(object sender, EventArgs e)
@@ -293,65 +325,48 @@ namespace LeagueHelper
         {
             if (toggle_autoPickChamp.Checked)
             {
-                if (listbox_selectChamp.SelectedIndex < 0)
+                if (listbox_selectChamp.Items.Count <= 0 || listbox_selectChamp.SelectedIndex < 0)
                 {
-                    MessageBox.Show("請先選擇英雄。");
                     toggle_autoPickChamp.Checked = false;
-                    return;
-                } else
-                {
-                    timer_autoPickChamp.Start();
+                    MessageBox.Show("請先選擇英雄。");
+                    
                 }
             }
-                
-            else
-                timer_autoPickChamp.Stop();
+
         }
 
         private async void timer_autoPickChamp_Tick(object sender, EventArgs e)
         {
-            timer_autoPickChamp.Stop();
-            if (listbox_selectChamp.Items.Count > 0)
-            {
-                await leagueExplorer.PickChampion(listbox_selectChamp.SelectedValue.ToString());
-                timer_autoPickChamp.Start();
-            }
-            else
-            {
-                toggle_autoPickChamp.Checked = false;
-                MessageBox.Show("目前無法取得可用英雄，請刷新英雄列表");
-            }
-            
-        }
-
-        private void toggle_autoPickLane_CheckedChanged(object sender, EventArgs e)
-        {
-            if (!toggle_autoPickLane.Checked)
-                timer_monitorStatus.Stop();
-            timer_autoPickLane.Enabled = toggle_autoPickLane.Checked;
+            if (toggle_autoPickChamp.Checked)
+                await leagueExplorer.PickChampion(listbox_selectChamp.SelectedValue.ToString());  
         }
 
         private async void timer_autoPickLane_Tick(object sender, EventArgs e)
         {
-            int freq;
-            bool boolResult = int.TryParse(txt_pickLaneFrequceny.Text, out freq);
-
-            if (!boolResult || checkList_selectLane.CheckedItems.Count < 1)
-                return;
-
-            timer_autoPickLane.Stop();
-                       
-            //Start Process Lane Message
-            String fullMessage = "";
-            foreach (int index in checkList_selectLane.CheckedIndices)
+            if (toggle_autoPickLane.Checked)
             {
-                fullMessage += $"{laneNames[index]}+";
+                int freq;
+                bool boolResult = int.TryParse(txt_pickLaneFrequceny.Text, out freq);
+
+                if (!boolResult || checkList_selectLane.CheckedItems.Count < 1)
+                    return;
+
+                timer_autoPickLane.Stop();
+
+                //Start Process Lane Message
+                String fullMessage = "";
+                foreach (int index in checkList_selectLane.CheckedIndices)
+                {
+                    fullMessage += $"{laneNames[index]}+";
+                }
+                bool finished = await leagueExplorer.SendMessageInSelectionMenu(fullMessage.Remove(fullMessage.Length - 1), freq, false);
+
+                if (!finished)
+                    timer_autoPickLane.Start();
             }
-            bool finished = await leagueExplorer.SendMessageInSelectionMenu(fullMessage.Remove(fullMessage.Length-1), freq, false);
-            if (finished)
-                timer_monitorStatus.Start();
             else
-                timer_autoPickLane.Start();
+                timer_autoPickLane.Stop();
+            
         }
 
         private void txt_pickLaneFrequceny_KeyPress(object sender, KeyPressEventArgs e)
@@ -383,15 +398,6 @@ namespace LeagueHelper
             await RefreshAvaiableChampionList();
         }
 
-        private async void timer_monitorStatus_Tick(object sender, EventArgs e)
-        {
-            timer_monitorStatus.Stop();
-            await RefreshAllSummonerData();
-            if (leagueExplorer.Summoner.GameStatus != Summoner.GAME_STATUS.SELECTING_CHAMP)
-                timer_autoPickLane.Start();
-            else
-                timer_monitorStatus.Start();
-        }
 
         private async void WriteChangelogInfo()
         {
@@ -420,7 +426,7 @@ namespace LeagueHelper
                 Properties.Settings.Default.champId = listbox_selectChamp.SelectedValue.ToString();
             Properties.Settings.Default.autoPickLane = toggle_autoPickLane.Checked;
             Properties.Settings.Default.selectedLanes = "";
-            Properties.Settings.Default.autoRunePage = toggle_autoPickRunes.Checked;
+            Properties.Settings.Default.autoOpenOPGG = toggle_openOPGGUrl.Checked;
             string temp = "";
             foreach (int index in checkList_selectLane.CheckedIndices)
             {
@@ -450,17 +456,26 @@ namespace LeagueHelper
             }
         }
 
-        private void toggle_autoPickRunes_CheckedChanged(object sender, EventArgs e)
+        private void toggle_autoPickLane_CheckedChanged(object sender, EventArgs e)
         {
-            timer_autoRunes.Enabled = toggle_autoPickRunes.Checked;
+            if (toggle_autoPickLane.Checked == false)
+                resetFlags();
         }
 
-        private async void timer_autoRunes_Tick(object sender, EventArgs e)
+        private void label4_Click(object sender, EventArgs e)
         {
-            timer_autoRunes.Stop();
-            bool result =  await leagueExplorer.CreateOPGGRunePage();
-            Debug.WriteLine("DEBUG ::: " + result);
-            timer_autoRunes.Start();
+
+        }
+
+        private async void timer_openUrl_Tick(object sender, EventArgs e)
+        {
+            if (toggle_openOPGGUrl.Checked)
+            {
+                timer_openUrl.Stop();
+                await leagueExplorer.OpenOPGGPage();
+                timer_openUrl.Start();
+            }
+            
         }
     }
 }

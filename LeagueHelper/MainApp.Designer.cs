@@ -47,7 +47,7 @@ namespace LeagueHelper
             this.txt_summonerName = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tabBasic = new System.Windows.Forms.TabPage();
-            this.toggle_autoPickRunes = new System.Windows.Forms.CheckBox();
+            this.toggle_openOPGGUrl = new System.Windows.Forms.CheckBox();
             this.btn_refreshAvaiableChamp = new System.Windows.Forms.Button();
             this.txt_pickLaneFrequceny = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -70,10 +70,9 @@ namespace LeagueHelper
             this.timer_autoAccept = new System.Windows.Forms.Timer(this.components);
             this.timer_autoPickChamp = new System.Windows.Forms.Timer(this.components);
             this.timer_autoPickLane = new System.Windows.Forms.Timer(this.components);
-            this.timer_monitorStatus = new System.Windows.Forms.Timer(this.components);
             this.txt_version = new System.Windows.Forms.Label();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
-            this.timer_autoRunes = new System.Windows.Forms.Timer(this.components);
+            this.timer_openUrl = new System.Windows.Forms.Timer(this.components);
             this.tabControl1.SuspendLayout();
             this.tabInfo.SuspendLayout();
             this.tabBasic.SuspendLayout();
@@ -195,6 +194,7 @@ namespace LeagueHelper
             this.label4.Size = new System.Drawing.Size(84, 26);
             this.label4.TabIndex = 5;
             this.label4.Text = "地區 ：";
+            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // label3
             // 
@@ -246,7 +246,7 @@ namespace LeagueHelper
             // 
             // tabBasic
             // 
-            this.tabBasic.Controls.Add(this.toggle_autoPickRunes);
+            this.tabBasic.Controls.Add(this.toggle_openOPGGUrl);
             this.tabBasic.Controls.Add(this.btn_refreshAvaiableChamp);
             this.tabBasic.Controls.Add(this.txt_pickLaneFrequceny);
             this.tabBasic.Controls.Add(this.label8);
@@ -263,17 +263,16 @@ namespace LeagueHelper
             this.tabBasic.Text = "基本功能";
             this.tabBasic.UseVisualStyleBackColor = true;
             // 
-            // toggle_autoPickRunes
+            // toggle_openOPGGUrl
             // 
-            this.toggle_autoPickRunes.AutoSize = true;
-            this.toggle_autoPickRunes.Enabled = false;
-            this.toggle_autoPickRunes.Location = new System.Drawing.Point(10, 271);
-            this.toggle_autoPickRunes.Name = "toggle_autoPickRunes";
-            this.toggle_autoPickRunes.Size = new System.Drawing.Size(310, 34);
-            this.toggle_autoPickRunes.TabIndex = 11;
-            this.toggle_autoPickRunes.Text = "自動建立符文(取自OPGG)";
-            this.toggle_autoPickRunes.UseVisualStyleBackColor = true;
-            this.toggle_autoPickRunes.CheckedChanged += new System.EventHandler(this.toggle_autoPickRunes_CheckedChanged);
+            this.toggle_openOPGGUrl.AutoSize = true;
+            this.toggle_openOPGGUrl.Enabled = false;
+            this.toggle_openOPGGUrl.Location = new System.Drawing.Point(10, 271);
+            this.toggle_openOPGGUrl.Name = "toggle_openOPGGUrl";
+            this.toggle_openOPGGUrl.Size = new System.Drawing.Size(294, 34);
+            this.toggle_openOPGGUrl.TabIndex = 12;
+            this.toggle_openOPGGUrl.Text = "自動開啟OPGG英雄頁面";
+            this.toggle_openOPGGUrl.UseVisualStyleBackColor = true;
             // 
             // btn_refreshAvaiableChamp
             // 
@@ -464,7 +463,7 @@ namespace LeagueHelper
             // 
             // timer_requestCycle
             // 
-            this.timer_requestCycle.Interval = 5000;
+            this.timer_requestCycle.Interval = 500;
             this.timer_requestCycle.Tick += new System.EventHandler(this.timer_requestCycle_Tick);
             // 
             // timer_autoAccept
@@ -482,11 +481,6 @@ namespace LeagueHelper
             this.timer_autoPickLane.Interval = 500;
             this.timer_autoPickLane.Tick += new System.EventHandler(this.timer_autoPickLane_Tick);
             // 
-            // timer_monitorStatus
-            // 
-            this.timer_monitorStatus.Interval = 1000;
-            this.timer_monitorStatus.Tick += new System.EventHandler(this.timer_monitorStatus_Tick);
-            // 
             // txt_version
             // 
             this.txt_version.AutoSize = true;
@@ -501,10 +495,10 @@ namespace LeagueHelper
             this.notifyIcon1.Text = "英雄聯盟小助手";
             this.notifyIcon1.Click += new System.EventHandler(this.notifyIcon1_Click);
             // 
-            // timer_autoRunes
+            // timer_openUrl
             // 
-            this.timer_autoRunes.Interval = 1800;
-            this.timer_autoRunes.Tick += new System.EventHandler(this.timer_autoRunes_Tick);
+            this.timer_openUrl.Interval = 500;
+            this.timer_openUrl.Tick += new System.EventHandler(this.timer_openUrl_Tick);
             // 
             // MainApp
             // 
@@ -577,7 +571,6 @@ namespace LeagueHelper
         private System.Windows.Forms.TextBox txt_pickLaneFrequceny;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button btn_refreshAvaiableChamp;
-        private System.Windows.Forms.Timer timer_monitorStatus;
         private System.Windows.Forms.TabPage tabUpdate;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label9;
@@ -586,10 +579,10 @@ namespace LeagueHelper
         private System.Windows.Forms.RichTextBox txt_changelog;
         private System.Windows.Forms.Button btn_CheckUpdate;
         private System.Windows.Forms.NotifyIcon notifyIcon1;
-        private System.Windows.Forms.CheckBox toggle_autoPickRunes;
         private System.Windows.Forms.CheckBox to;
         private System.Windows.Forms.CheckBox togg;
-        private System.Windows.Forms.Timer timer_autoRunes;
+        private System.Windows.Forms.CheckBox toggle_openOPGGUrl;
+        private System.Windows.Forms.Timer timer_openUrl;
     }
 }
 

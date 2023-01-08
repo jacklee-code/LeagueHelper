@@ -7,6 +7,10 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
+using System.Drawing;
+using System.Text.Encodings.Web;
+using System.Security.Policy;
 
 namespace LeagueHelper
 {
@@ -88,6 +92,7 @@ namespace LeagueHelper
         {
             try
             {
+                Console.WriteLine("Start Create RunePage");
                 await DeleteRepeatedRunePages(runePage.name);
                 HttpContent content = new StringContent(JsonConvert.SerializeObject(runePage), Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await httpClient.PostAsync(urlRoot + "/lol-perks/v1/pages", content);
@@ -190,32 +195,65 @@ namespace LeagueHelper
                 if (response.StatusCode != System.Net.HttpStatusCode.OK)
                     return "";
 
-                obj = JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync());
-                Summoner.LastSelectedChampion = obj.alias;
 
-                return Summoner.LastSelectedChampion; ;
+                String json = await response.Content.ReadAsStringAsync();
+                int start_index = json.IndexOf("\"alias\":") + 9;
+                int stop_index = json.IndexOf("\"", start_index);
+                string alias = "";
+                for (int i = start_index; i < stop_index; i++)
+                    alias += json[i];
+
+                //Debug.WriteLine(alias);
+
+                Summoner.LastSelectedChampion = alias;
+
+                return Summoner.LastSelectedChampion;
             }
             catch { return ""; }
         }
 
-        public async Task<bool> CreateOPGGRunePage(String region = "www")
+        public async Task<bool> OpenOPGGPage()
         {
             String lastChamp = Summoner.LastSelectedChampion;
             String currChamp = await GetCurrentSelectedChampionName();
             if (currChamp.Length == 0 || lastChamp == currChamp)
                 return false;
-                
 
-            //Do...
-            String opggUrl = "https://" + region + ".op.gg/champion/" + currChamp;
-            HttpResponseMessage response = await httpClient.GetAsync(opggUrl);
-            if (!response.IsSuccessStatusCode)
+            String opggUrl = "https://" + "www.op.gg/champion/" + currChamp + "/statistics";
+            Process.Start(new ProcessStartInfo() { FileName = opggUrl, UseShellExecute = true });
+            return true;
+        }
+
+        public async Task<bool> CreateOPGGRunePage(String region = "www", bool isOpenUrl = false, Action<string> openUrlFunc = null)
+        {
+            String lastChamp = Summoner.LastSelectedChampion;
+            String currChamp = await GetCurrentSelectedChampionName();
+            if (currChamp.Length == 0 || lastChamp == currChamp)
                 return false;
 
-            try
+            
+
+            
+
+            //Do...
+            String opggUrl = "https://" + region + ".op.gg/champion/" + currChamp + "/statistics";
+
+            if (!(openUrlFunc is null) && isOpenUrl)
+                openUrlFunc(opggUrl);
+
+            HttpResponseMessage response = await httpClient.GetAsync(opggUrl);
+            if (!response.IsSuccessStatusCode)
             {
+                
+                return false;
+            }
+                
+
+            try
+            {            
                 RunePage runepage = new RunePage();
                 String htmlText = await response.Content.ReadAsStringAsync();
+                Console.WriteLine(htmlText);
                 String perk_page_wrap = htmlText.Split("perk-page-wrap")[1];
                 String primary_perk = perk_page_wrap.Split("perk-page__item--mark")[1].Split("perkStyle/")[1].Split(".png")[0];
                 String sub_perk = perk_page_wrap.Split("perk-page__item--mark")[2].Split("perkStyle/")[1].Split(".png")[0];
@@ -235,7 +273,8 @@ namespace LeagueHelper
                     int shardid = int.Parse(tmp[tmp.Length - 1].Split(".png")[0]);
                     runepage.selectedPerkIds.Add(shardid);
                 }
-                return await CreateRunePage(runepage);
+                bool result = await CreateRunePage(runepage);
+                return result;
             }
             catch { return false; }
         }
@@ -318,7 +357,8 @@ namespace LeagueHelper
         public async Task<bool> SendMessageInSelectionMenu(String message, int frequency = 1, bool isSystemMessage = false)
         {
             try
-            {              
+            {
+                Debug.WriteLine("Func called");
                 bool success = await UpdateGameStatus();
                 if (!success)
                     return false;
@@ -352,9 +392,14 @@ namespace LeagueHelper
                 {
                     response = await httpClient.PostAsync(urlRoot + "/lol-chat/v1/conversations/" + chatId + "/messages", messageContent);
                     if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                    {
+                        Debug.WriteLine("call faield");
                         i--;
+                    }
+                        
                 }
             } catch { return false; }
+            Debug.WriteLine("success");
             return true;
         }
 
