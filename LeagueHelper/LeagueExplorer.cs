@@ -88,20 +88,20 @@ namespace LeagueHelper
             
         }
 
-        private async Task<bool> CreateRunePage(RunePage runePage)
-        {
-            try
-            {
-                Console.WriteLine("Start Create RunePage");
-                await DeleteRepeatedRunePages(runePage.name);
-                HttpContent content = new StringContent(JsonConvert.SerializeObject(runePage), Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await httpClient.PostAsync(urlRoot + "/lol-perks/v1/pages", content);
-                if (response.StatusCode != System.Net.HttpStatusCode.OK)
-                    return false;
-                return true;
-            }
-            catch { return false; }
-        }
+        //private async Task<bool> CreateRunePage(RunePage runePage)
+        //{
+        //    try
+        //    {
+        //        Console.WriteLine("Start Create RunePage");
+        //        await DeleteRepeatedRunePages(runePage.name);
+        //        HttpContent content = new StringContent(JsonConvert.SerializeObject(runePage), Encoding.UTF8, "application/json");
+        //        HttpResponseMessage response = await httpClient.PostAsync(urlRoot + "/lol-perks/v1/pages", content);
+        //        if (response.StatusCode != System.Net.HttpStatusCode.OK)
+        //            return false;
+        //        return true;
+        //    }
+        //    catch { return false; }
+        //}
 
         private async Task<bool> DeleteRepeatedRunePages(String pageName = "英雄聯盟小助手")
         {
@@ -196,16 +196,11 @@ namespace LeagueHelper
                     return "";
 
 
-                String json = await response.Content.ReadAsStringAsync();
-                int start_index = json.IndexOf("\"alias\":") + 9;
-                int stop_index = json.IndexOf("\"", start_index);
-                string alias = "";
-                for (int i = start_index; i < stop_index; i++)
-                    alias += json[i];
+                dynamic champDetail = JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync());
 
                 //Debug.WriteLine(alias);
 
-                Summoner.LastSelectedChampion = alias;
+                Summoner.LastSelectedChampion = champDetail.alias;
 
                 return Summoner.LastSelectedChampion;
             }
@@ -224,60 +219,60 @@ namespace LeagueHelper
             return true;
         }
 
-        public async Task<bool> CreateOPGGRunePage(String region = "www", bool isOpenUrl = false, Action<string> openUrlFunc = null)
-        {
-            String lastChamp = Summoner.LastSelectedChampion;
-            String currChamp = await GetCurrentSelectedChampionName();
-            if (currChamp.Length == 0 || lastChamp == currChamp)
-                return false;
+        //public async Task<bool> CreateOPGGRunePage(String region = "www", bool isOpenUrl = false, Action<string> openUrlFunc = null)
+        //{
+        //    String lastChamp = Summoner.LastSelectedChampion;
+        //    String currChamp = await GetCurrentSelectedChampionName();
+        //    if (currChamp.Length == 0 || lastChamp == currChamp)
+        //        return false;
 
             
 
             
 
-            //Do...
-            String opggUrl = "https://" + region + ".op.gg/champion/" + currChamp + "/statistics";
+        //    //Do...
+        //    String opggUrl = "https://" + region + ".op.gg/champion/" + currChamp + "/statistics";
 
-            if (!(openUrlFunc is null) && isOpenUrl)
-                openUrlFunc(opggUrl);
+        //    if (!(openUrlFunc is null) && isOpenUrl)
+        //        openUrlFunc(opggUrl);
 
-            HttpResponseMessage response = await httpClient.GetAsync(opggUrl);
-            if (!response.IsSuccessStatusCode)
-            {
+        //    HttpResponseMessage response = await httpClient.GetAsync(opggUrl);
+        //    if (!response.IsSuccessStatusCode)
+        //    {
                 
-                return false;
-            }
+        //        return false;
+        //    }
                 
 
-            try
-            {            
-                RunePage runepage = new RunePage();
-                String htmlText = await response.Content.ReadAsStringAsync();
-                Console.WriteLine(htmlText);
-                String perk_page_wrap = htmlText.Split("perk-page-wrap")[1];
-                String primary_perk = perk_page_wrap.Split("perk-page__item--mark")[1].Split("perkStyle/")[1].Split(".png")[0];
-                String sub_perk = perk_page_wrap.Split("perk-page__item--mark")[2].Split("perkStyle/")[1].Split(".png")[0];
-                runepage.primaryStyleId = int.Parse(primary_perk);
-                runepage.subStyleId = int.Parse(sub_perk);
-                String[] perkids2 = perk_page_wrap.Split("perk-page__item--active");
-                for (int i = 1; i < perkids2.Length; i++)
-                {
-                    String perkid = perkids2[i].Split("perk/")[1].Split(".png")[0];
-                    runepage.selectedPerkIds.Add(int.Parse(perkid));
-                }
+        //    try
+        //    {            
+        //        RunePage runepage = new RunePage();
+        //        String htmlText = await response.Content.ReadAsStringAsync();
+        //        Console.WriteLine(htmlText);
+        //        String perk_page_wrap = htmlText.Split("perk-page-wrap")[1];
+        //        String primary_perk = perk_page_wrap.Split("perk-page__item--mark")[1].Split("perkStyle/")[1].Split(".png")[0];
+        //        String sub_perk = perk_page_wrap.Split("perk-page__item--mark")[2].Split("perkStyle/")[1].Split(".png")[0];
+        //        runepage.primaryStyleId = int.Parse(primary_perk);
+        //        runepage.subStyleId = int.Parse(sub_perk);
+        //        String[] perkids2 = perk_page_wrap.Split("perk-page__item--active");
+        //        for (int i = 1; i < perkids2.Length; i++)
+        //        {
+        //            String perkid = perkids2[i].Split("perk/")[1].Split(".png")[0];
+        //            runepage.selectedPerkIds.Add(int.Parse(perkid));
+        //        }
 
-                String[] fragments = perk_page_wrap.Split("fragment__row");
-                for (int i = 1; i < fragments.Length; i++)
-                {
-                    String[] tmp = fragments[i].Split("active")[0].Split("perkShard/");
-                    int shardid = int.Parse(tmp[tmp.Length - 1].Split(".png")[0]);
-                    runepage.selectedPerkIds.Add(shardid);
-                }
-                bool result = await CreateRunePage(runepage);
-                return result;
-            }
-            catch { return false; }
-        }
+        //        String[] fragments = perk_page_wrap.Split("fragment__row");
+        //        for (int i = 1; i < fragments.Length; i++)
+        //        {
+        //            String[] tmp = fragments[i].Split("active")[0].Split("perkShard/");
+        //            int shardid = int.Parse(tmp[tmp.Length - 1].Split(".png")[0]);
+        //            runepage.selectedPerkIds.Add(shardid);
+        //        }
+        //        bool result = await CreateRunePage(runepage);
+        //        return result;
+        //    }
+        //    catch { return false; }
+        //}
 
 
         public async Task AcceptMatch()

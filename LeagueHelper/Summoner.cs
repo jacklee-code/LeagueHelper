@@ -6,7 +6,7 @@ namespace LeagueHelper
     public class Summoner
     {
 
-        public int SummonerID { get; set; }
+        public long SummonerID { get; set; }
 
         public static class GAME_STATUS
         {
@@ -20,7 +20,7 @@ namespace LeagueHelper
             public const String CREATE_PRACTICE = "hosting_PRACTICETOOL";
         }
 
-        private const String REGION_TW = "TW";
+        private const String REGION_TW = "TW2";
 
         public String Name { get; set; }
         public String StatusMessage { get; set; }
